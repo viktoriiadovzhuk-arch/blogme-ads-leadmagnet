@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Доплата залишку — Блог Мі</title>
+<script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noir:#1A1A1A;--blanc:#F7F4F0;--blush:#D4847A;--champagne:#C9A96E;
+  --warm-gray:#8C8580;--soft-cream:#EDE8E1;--deep-mauve:#6B4F5C;--sage:#8B9E7E;
+  --display:'Cormorant Garamond',serif;--body:'DM Sans',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--blanc);color:var(--noir);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px}
+
+.card{
+  max-width:560px;width:100%;text-align:center;
+  animation:rise .8s var(--ease) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+
+.brand{font-family:var(--display);font-size:20px;font-weight:500;margin-bottom:32px;letter-spacing:.02em;color:var(--warm-gray)}
+.brand em{font-style:italic;color:var(--blush)}
+
+h1{font-family:var(--display);font-size:clamp(36px,5vw,48px);font-weight:400;line-height:1.1;margin-bottom:20px;letter-spacing:-.01em}
+h1 em{font-style:italic;color:var(--blush)}
+
+.tariff-pill{
+  display:inline-block;padding:8px 22px;background:var(--blush);color:var(--blanc);
+  font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  margin-bottom:32px;
+}
+
+.summary{
+  background:var(--soft-cream);padding:32px 28px;
+  margin:0 auto 36px;max-width:440px;
+  text-align:left;
+}
+.summary-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:14px 0;border-bottom:1px solid rgba(140,133,128,.2);
+}
+.summary-row:last-child{border-bottom:none;padding-top:18px;margin-top:6px;border-top:2px solid var(--blush);font-weight:700}
+.summary-label{font-size:14px;color:#444}
+.summary-val{font-family:var(--display);font-size:22px;font-weight:500}
+.summary-row:last-child .summary-val{font-size:32px;color:var(--blush)}
+
+.cta{
+  display:block;width:100%;
+  font-family:var(--body);font-weight:700;font-size:13px;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:18px 24px;
+  border:none;cursor:pointer;text-decoration:none;
+  transition:all .35s var(--ease);
+  margin-bottom:10px;
+}
+.cta-mono{
+  background:var(--blush);color:var(--blanc);
+  box-shadow:0 8px 22px -10px rgba(212,132,122,.5);
+}
+.cta-mono:hover{transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(212,132,122,.65)}
+.cta-wfp{
+  background:var(--sage);color:var(--blanc);
+  box-shadow:0 8px 22px -10px rgba(139,158,126,.5);
+}
+.cta-wfp:hover{transform:translateY(-2px);box-shadow:0 14px 30px -10px rgba(139,158,126,.65)}
+.cta:disabled{opacity:.6;cursor:wait;transform:none}
+
+.error-msg{
+  display:none;margin-top:14px;padding:12px 16px;
+  background:rgba(107,79,92,.08);border-left:3px solid var(--deep-mauve);
+  font-size:13px;color:var(--deep-mauve);text-align:left;
+}
+.error-msg.show{display:block}
+
+.deadline{
+  font-size:13px;color:var(--warm-gray);margin-top:24px;
+}
+.deadline b{color:var(--noir);font-weight:500}
+
+.error-state, .loading-state{
+  padding:48px 24px;
+  font-family:var(--display);font-size:24px;font-style:italic;
+  color:var(--warm-gray);
+}
+.error-state h2{
+  font-family:var(--display);font-size:32px;font-weight:400;
+  color:var(--deep-mauve);margin-bottom:16px;font-style:normal;
+}
+.error-state p{
+  font-family:var(--body);font-size:15px;color:#444;
+  font-style:normal;line-height:1.6;
+}
+
+.support{
+  margin-top:36px;padding-top:24px;border-top:1px solid var(--soft-cream);
+  font-size:14px;color:var(--warm-gray);
+}
+.support a{
+  color:var(--blush);text-decoration:none;font-weight:500;
+  border-bottom:1px solid var(--blush);
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="brand">Блог <em>Мі</em></div>
+
+  <!-- Loading -->
+  <div id="loadingBlock" class="loading-state">
+    Перевіряю бронь...
+  </div>
+
+  <!-- Main: ready to pay -->
+  <div id="payBlock" style="display:none">
+    <div class="tariff-pill" id="tariffPill">Тариф —</div>
+    <h1>Доплата <em>залишку</em></h1>
+    <p style="font-size:16px;color:#444;margin-bottom:32px;line-height:1.6">
+      Залишилось внести фінальну частину — і ти отримаєш повний доступ до платформи.
+    </p>
+
+    <div class="summary">
+      <div class="summary-row">
+        <span class="summary-label">Повна вартість тарифу</span>
+        <span class="summary-val" id="fullPrice">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">Вже оплачено (бронь)</span>
+        <span class="summary-val" id="paidAlready">—</span>
+      </div>
+      <div class="summary-row">
+        <span class="summary-label">До доплати</span>
+        <span class="summary-val" id="remaining">—</span>
+      </div>
+    </div>
+
+    <p style="font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--warm-gray);margin:24px 0 14px">Обери спосіб оплати:</p>
+    <button class="cta cta-mono" id="payBtnMono" onclick="processRestPayment('mono')">
+      💳 Повна оплата картою — plata by mono
+    </button>
+    <button class="cta cta-wfp" id="payBtnWfp" onclick="processRestPayment('wfp')">
+      💳 Оплата частинами від банку — WayForPay
+    </button>
+    <div id="errorMsg" class="error-msg"></div>
+
+    <p class="deadline" id="deadlineText">Посилання діє до <b>18 травня 2026</b></p>
+  </div>
+
+  <!-- Errors -->
+  <div id="errorBlock" class="error-state" style="display:none">
+    <h2 id="errorTitle">Помилка</h2>
+    <p id="errorText">Виникла помилка</p>
+  </div>
+
+  <div class="support">
+    За всіма питаннями: <a href="https://t.me/victoria_dovzhuk" target="_blank">@victoria_dovzhuk</a>
+  </div>
+</div>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const token = params.get('token');
+
+  function fmt(n){ return Number(n).toLocaleString('uk-UA') + ' ₴'; }
+
+  function showError(title, text){
+    document.getElementById('loadingBlock').style.display = 'none';
+    document.getElementById('payBlock').style.display = 'none';
+    document.getElementById('errorBlock').style.display = 'block';
+    document.getElementById('errorTitle').textContent = title;
+    document.getElementById('errorText').textContent = text;
+  }
+
+  async function init(){
+    if (!token) {
+      showError('Посилання неповне', 'Не вказано токен. Перевір, що скопіював посилання повністю.');
+      return;
+    }
+
+    try {
+      const resp = await fetch('/.netlify/functions/get-booking', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token })
+      });
+      const data = await resp.json();
+
+      if (resp.status === 404 || data.error === 'not_found') {
+        showError('Бронь не знайдено', 'Перевір посилання — можливо в нього вкралась помилка. Або зверніться в Telegram.');
+        return;
+      }
+
+      if (data.expired) {
+        showError('Термін дії минув', 'Це посилання діяло до 18 травня 2026. Звернись в Telegram, щоб домовитись.');
+        return;
+      }
+
+      if (data.alreadyPaid) {
+        showError('Уже оплачено', 'Цей тариф вже повністю оплачено. Перевір email — там доступ до платформи.');
+        return;
+      }
+
+      if (data.notBooked) {
+        showError('Бронь не активна', 'Спочатку треба оплатити бронь 1000 ₴. Зверніться в Telegram, щоб розібратись.');
+        return;
+      }
+
+      if (!data.ok) {
+        showError('Помилка', data.message || 'Щось пішло не так');
+        return;
+      }
+
+      // SUCCESS — показуємо форму
+      const planLabel = data.plan === 'vip' ? 'VIP' : 'START';
+      document.getElementById('tariffPill').textContent = 'Тариф ' + planLabel;
+      document.getElementById('fullPrice').textContent = fmt(data.fullPrice);
+      document.getElementById('paidAlready').textContent = fmt(data.paidAlready);
+      document.getElementById('remaining').textContent = fmt(data.remaining);
+
+      document.getElementById('loadingBlock').style.display = 'none';
+      document.getElementById('payBlock').style.display = 'block';
+
+    } catch (err) {
+      console.error(err);
+      showError('Помилка зʼєднання', 'Перевір інтернет і оновіть сторінку.');
+    }
+  }
+
+  function showInlineError(msg){
+    const el = document.getElementById('errorMsg');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+  function hideInlineError(){
+    document.getElementById('errorMsg').classList.remove('show');
+  }
+  function setBtnState(btn, label, disabled){
+    btn.disabled = disabled;
+    btn.textContent = label;
+  }
+
+  async function processRestPayment(method){
+    hideInlineError();
+
+    const btnMono = document.getElementById('payBtnMono');
+    const btnWfp = document.getElementById('payBtnWfp');
+
+    if (method === 'mono') {
+      setBtnState(btnMono, 'Готую платіж...', true);
+      btnWfp.disabled = true;
+
+      try {
+        const resp = await fetch('/.netlify/functions/create-rest-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        const data = await resp.json();
+
+        if (!resp.ok || !data.pageUrl) {
+          showInlineError(data.error || 'Помилка створення платежу');
+          setBtnState(btnMono, '💳 Повна оплата картою — plata by mono', false);
+          btnWfp.disabled = false;
+          return;
+        }
+        window.location.href = data.pageUrl;
+      } catch (err) {
+        showInlineError('Помилка зʼєднання. Спробуй ще раз.');
+        setBtnState(btnMono, '💳 Повна оплата картою — plata by mono', false);
+        btnWfp.disabled = false;
+      }
+    } else if (method === 'wfp') {
+      setBtnState(btnWfp, 'Готую платіж...', true);
+      btnMono.disabled = true;
+
+      try {
+        const resp = await fetch('/.netlify/functions/create-rest-payment-wfp', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        const data = await resp.json();
+
+        if (!resp.ok || !data.widgetParams) {
+          showInlineError(data.error || 'Помилка створення платежу');
+          setBtnState(btnWfp, '💳 Оплата частинами від банку — WayForPay', false);
+          btnMono.disabled = false;
+          return;
+        }
+
+        // Запускаємо WFP-віджет
+        var wayforpay = new Wayforpay();
+        wayforpay.run(
+          data.widgetParams,
+          function(response){ window.location.href = '/thankyou'; },
+          function(response){
+            showInlineError('Оплата не пройшла. Спробуй ще раз або обери інший спосіб.');
+            setBtnState(btnWfp, '💳 Оплата частинами від банку — WayForPay', false);
+            btnMono.disabled = false;
+          },
+          function(response){ window.location.href = '/thankyou'; }
+        );
+
+      } catch (err) {
+        showInlineError('Помилка зʼєднання. Спробуй ще раз.');
+        setBtnState(btnWfp, '💳 Оплата частинами від банку — WayForPay', false);
+        btnMono.disabled = false;
+      }
+    }
+  }
+
+  init();
+</script>
+
+</body>
+</html>

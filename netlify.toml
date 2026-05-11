@@ -1,0 +1,76 @@
+[build]
+  functions = "netlify/functions"
+  publish = "public"
+
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Clean URL for LMS
+[[redirects]]
+  from = "/lms"
+  to = "/lms.html"
+  status = 200
+
+# Clean URL for Admin
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
+
+# Clean URL for booking pay-rest
+[[redirects]]
+  from = "/pay-rest"
+  to = "/pay-rest.html"
+  status = 200
+
+# Clean URL for booking thankyou
+[[redirects]]
+  from = "/thankyou-booking"
+  to = "/thankyou-booking.html"
+  status = 200
+
+# Clean URL for thankyou (full payment)
+[[redirects]]
+  from = "/thankyou"
+  to = "/thankyou.html"
+  status = 200
+
+# Clean URL for secret promo page
+[[redirects]]
+  from = "/secret-promo"
+  to = "/secret-promo.html"
+  status = 200
+
+# Clean URL for promo-lesson page
+[[redirects]]
+  from = "/promo-lesson"
+  to = "/promo-lesson.html"
+  status = 200
+
+# Clean URL for SP debug page
+[[redirects]]
+  from = "/sp-debug"
+  to = "/sp-debug.html"
+  status = 200
+
+# Clean URL for admin promos
+[[redirects]]
+  from = "/admin-promos"
+  to = "/admin-promos.html"
+  status = 200
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/manifest+json"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"

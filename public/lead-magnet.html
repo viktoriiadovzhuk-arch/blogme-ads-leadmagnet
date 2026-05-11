@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Блог.me · Безкоштовний урок — 3 речі, без яких блог не росте</title>
+<meta name="description" content="15-хвилинний урок від Юлії Норець про 3 речі, без яких блог не росте — навіть якщо ти знімаєш рілси щодня.">
+
+<!-- Open Graph -->
+<meta property="og:title" content="Блог.me · Чому одні блоги ростуть, а інші публікують роками без результату">
+<meta property="og:description" content="15-хвилинний урок від Юлії Норець. Безкоштовно в Telegram.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+<!-- ============================================== -->
+<!-- META PIXEL · ID: 4376682672588028              -->
+<!-- ============================================== -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4376682672588028');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=4376682672588028&ev=PageView&noscript=1"/></noscript>
+<!-- ============================================== -->
+
+<!--
+============================================================
+ПРИМІТКА ПРО CAPI (Conversions API · серверна частина):
+Поточна реалізація — клієнтський Pixel + події через fbq().
+Для додаткової надійності трекінгу (особливо на iOS після
+ATT) можна підключити серверну CAPI через:
+  1) Meta Conversions API Gateway (хмарне рішення Meta)
+  2) Webhook на власний сервер → виклик Meta Graph API
+  3) Zapier-інтеграцію Telegram-бот → Meta CAPI
+
+Коли користувач натискає TG-кнопку, бот pulse.is отримає
+event /start з UTM. На стороні бота можна викликати CAPI
+endpoint Meta з event_name="Subscribe" і відповідним
+fbp/fbc для надійного матчингу.
+
+Поточної клієнтської реалізації достатньо для запуску
+рекламних кампаній.
+============================================================
+-->
+
+<style>
+  :root{
+    --noir:#1A1A1A;
+    --blanc:#F7F4F0;
+    --blush:#D4847A;
+    --blush-dark:#c47269;
+    --sage:#8B9E7E;
+    --champ:#C9A96E;
+    --gray:#8C8580;
+    --cream:#EDE8E1;
+    --mauve:#6B4F5C;
+    --serif:'Cormorant Garamond', Georgia, serif;
+    --sans:'DM Sans', -apple-system, sans-serif;
+  }
+
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:var(--sans);
+    background:var(--blanc);
+    color:var(--noir);
+    line-height:1.6;
+    font-weight:400;
+    -webkit-font-smoothing:antialiased;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* Grain texture */
+  body::before{
+    content:'';
+    position:fixed;
+    inset:0;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity:0.04;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+    z-index:100;
+  }
+
+  /* TOP BAR */
+  .topbar{
+    position:absolute;
+    top:0;left:0;right:0;
+    padding:24px 32px;
+    z-index:10;
+  }
+  .topbar-inner{
+    max-width:1440px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:600;
+    letter-spacing:-0.5px;
+  }
+  .logo em{
+    font-style:italic;
+    color:var(--blush);
+    font-weight:500;
+  }
+  .topbar-label{
+    font-size:10px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:500;
+  }
+  @media (max-width:600px){.topbar-label{display:none}}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    padding:120px 32px 80px;
+    display:flex;
+    align-items:center;
+    position:relative;
+  }
+  .hero-inner{
+    max-width:1320px;
+    margin:0 auto;
+    width:100%;
+    display:grid;
+    grid-template-columns:1.05fr 1fr;
+    gap:80px;
+    align-items:center;
+  }
+  @media (max-width:980px){
+    .hero{padding:100px 24px 60px}
+    .hero-inner{grid-template-columns:1fr;gap:48px}
+  }
+
+  /* Hero LEFT */
+  .hero-eyebrow{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    font-size:10px;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--blush);
+    font-weight:700;
+    margin-bottom:32px;
+  }
+  .hero-eyebrow::before{
+    content:'';
+    width:24px;height:1px;
+    background:var(--blush);
+  }
+
+  .hero h1{
+    font-family:var(--serif);
+    font-size:clamp(38px, 5.5vw, 64px);
+    font-weight:400;
+    line-height:1.05;
+    letter-spacing:-1.5px;
+    margin-bottom:28px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--blush);
+    font-weight:500;
+  }
+  .hero h1 .strike{
+    position:relative;
+    color:var(--gray);
+  }
+  .hero h1 .strike::after{
+    content:'';
+    position:absolute;
+    left:-2%;right:-2%;
+    top:55%;
+    height:2px;
+    background:var(--blush);
+    transform:rotate(-2deg);
+  }
+
+  .hero-sub{
+    font-size:18px;
+    line-height:1.6;
+    color:var(--noir);
+    max-width:540px;
+    margin-bottom:36px;
+    font-weight:400;
+  }
+  .hero-sub strong{
+    color:var(--blush);
+    font-weight:600;
+  }
+  @media (max-width:600px){.hero-sub{font-size:16px}}
+
+  /* Hero TG button — inline in left column */
+  .hero-cta-wrap{
+    margin-bottom:18px;
+  }
+  .hero-cta-trust{
+    font-size:13px;
+    color:var(--gray);
+    line-height:1.5;
+  }
+  .hero-cta-trust strong{
+    color:var(--noir);
+    font-weight:600;
+  }
+
+  /* Hero RIGHT — photo + badges */
+  .hero-photo-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    background:var(--cream);
+    overflow:hidden;
+  }
+  .hero-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 30%;
+    filter:contrast(1.02);
+  }
+  @media (max-width:600px){
+    .hero-photo-wrap{aspect-ratio:4/5}
+  }
+
+  /* Floating badges */
+  .badge{
+    position:absolute;
+    background:var(--blanc);
+    color:var(--noir);
+    padding:14px 18px;
+    box-shadow:0 16px 40px rgba(26,26,26,0.15);
+    z-index:3;
+    font-family:var(--sans);
+    border-left:2px solid var(--blush);
+  }
+  .badge-num{
+    font-family:var(--serif);
+    font-size:28px;
+    font-weight:500;
+    line-height:1;
+    color:var(--noir);
+    letter-spacing:-0.5px;
+    margin-bottom:4px;
+  }
+  .badge-num em{
+    font-style:italic;
+    color:var(--blush);
+  }
+  .badge-label{
+    font-size:10px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:600;
+    line-height:1.3;
+  }
+  .badge-1{
+    top:32px;
+    right:-24px;
+  }
+  .badge-2{
+    top:50%;
+    left:-32px;
+    transform:translateY(-50%);
+  }
+  .badge-3{
+    bottom:32px;
+    right:-20px;
+  }
+  @media (max-width:1100px){
+    .badge-1{right:-12px}
+    .badge-2{left:-16px}
+    .badge-3{right:-10px}
+  }
+  @media (max-width:600px){
+    .badge{padding:10px 14px}
+    .badge-num{font-size:22px}
+    .badge-label{font-size:9px}
+    .badge-1{top:16px;right:8px}
+    .badge-2{left:8px}
+    .badge-3{bottom:16px;right:8px}
+  }
+
+  /* Accent corner — decorative */
+  .accent-num{
+    position:absolute;
+    bottom:-30px;
+    left:-30px;
+    font-family:var(--serif);
+    font-size:200px;
+    font-weight:300;
+    color:var(--cream);
+    line-height:1;
+    z-index:-1;
+    user-select:none;
+    pointer-events:none;
+  }
+  @media (max-width:980px){.accent-num{display:none}}
+
+  /* PINK TG BUTTON */
+  .tg-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:12px;
+    width:100%;
+    max-width:480px;
+    padding:22px 28px;
+    background:var(--blush);
+    color:var(--blanc);
+    border:none;
+    font-family:var(--sans);
+    font-size:14px;
+    font-weight:700;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    text-decoration:none;
+    cursor:pointer;
+    transition:background-color .2s, transform .15s, box-shadow .2s;
+    position:relative;
+    box-shadow:0 12px 32px rgba(212,132,122,0.35);
+  }
+  .tg-btn:hover{
+    background:var(--blush-dark);
+    box-shadow:0 16px 40px rgba(212,132,122,0.5);
+    transform:translateY(-1px);
+  }
+  .tg-btn:active{transform:translateY(0)}
+  .tg-btn svg{
+    width:22px;height:22px;
+    flex-shrink:0;
+  }
+  .tg-btn::after{
+    content:' →';
+    transition:margin-left .2s;
+    margin-left:4px;
+  }
+  .tg-btn:hover::after{margin-left:10px}
+
+  /* ================= LESSON CONTENT (Section 2) ================= */
+  .lesson{
+    background:var(--cream);
+    padding:100px 32px;
+  }
+  .lesson-inner{
+    max-width:1000px;
+    margin:0 auto;
+  }
+  .lesson-header{
+    text-align:center;
+    margin-bottom:56px;
+  }
+  .lesson-eyebrow{
+    font-size:10px;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:700;
+    margin-bottom:22px;
+  }
+  .lesson-header h2{
+    font-family:var(--serif);
+    font-size:clamp(32px, 4vw, 52px);
+    font-weight:400;
+    line-height:1.15;
+    letter-spacing:-0.8px;
+    max-width:780px;
+    margin:0 auto;
+  }
+  .lesson-header h2 em{
+    font-style:italic;
+    color:var(--blush);
+  }
+
+  .lesson-items{
+    display:grid;
+    gap:0;
+    margin-bottom:56px;
+  }
+  .lesson-item{
+    display:grid;
+    grid-template-columns:80px 1fr;
+    gap:32px;
+    padding:28px 0;
+    border-bottom:1px solid rgba(140,133,128,0.25);
+    align-items:baseline;
+  }
+  .lesson-item:first-child{
+    border-top:1px solid rgba(140,133,128,0.25);
+  }
+  @media (max-width:600px){
+    .lesson-item{grid-template-columns:60px 1fr;gap:20px;padding:22px 0}
+  }
+  .lesson-item-num{
+    font-family:var(--serif);
+    font-size:54px;
+    font-weight:300;
+    line-height:1;
+    color:var(--blush);
+    font-style:italic;
+    letter-spacing:-1px;
+  }
+  @media (max-width:600px){.lesson-item-num{font-size:40px}}
+  .lesson-item-content h3{
+    font-family:var(--serif);
+    font-size:24px;
+    font-weight:500;
+    line-height:1.25;
+    margin-bottom:8px;
+    letter-spacing:-0.3px;
+  }
+  .lesson-item-content p{
+    font-size:15px;
+    color:var(--mauve);
+    line-height:1.6;
+  }
+
+  .lesson-cta{
+    text-align:center;
+  }
+
+  /* ================= ПРО ЮЛЮ ================= */
+  .about{
+    background:var(--blanc);
+    padding:100px 32px;
+  }
+  .about-inner{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1.2fr;
+    gap:80px;
+    align-items:center;
+  }
+  @media (max-width:980px){
+    .about-inner{grid-template-columns:1fr;gap:48px}
+  }
+
+  .about-photo-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/4;
+    background:var(--cream);
+    overflow:hidden;
+  }
+  .about-photo{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 25%;
+  }
+  .about-photo-tag{
+    position:absolute;
+    bottom:24px;
+    left:24px;
+    background:var(--noir);
+    color:var(--blanc);
+    padding:10px 16px;
+    font-size:10px;
+    letter-spacing:0.25em;
+    text-transform:uppercase;
+    font-weight:700;
+    z-index:2;
+  }
+  .about-photo-tag em{
+    color:var(--blush);
+    font-style:normal;
+  }
+
+  .about-content{
+    max-width:540px;
+  }
+  .about-eyebrow{
+    font-size:10px;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--blush);
+    font-weight:700;
+    margin-bottom:20px;
+  }
+  .about-content h2{
+    font-family:var(--serif);
+    font-size:clamp(36px, 5vw, 56px);
+    font-weight:400;
+    line-height:1.1;
+    letter-spacing:-1px;
+    margin-bottom:32px;
+  }
+  .about-content h2 em{
+    font-style:italic;
+    color:var(--blush);
+  }
+
+  .about-bio{
+    font-size:17px;
+    line-height:1.75;
+    color:var(--noir);
+    margin-bottom:32px;
+  }
+  .about-bio p{
+    margin-bottom:16px;
+  }
+  .about-bio p:last-child{margin-bottom:0}
+  .about-bio strong{
+    color:var(--noir);
+    font-weight:600;
+  }
+  .about-bio em{
+    font-family:var(--serif);
+    font-style:italic;
+    color:var(--mauve);
+    font-size:19px;
+  }
+
+  /* About stats — inline cards */
+  .about-stats{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+    border-top:1px solid var(--cream);
+    border-bottom:1px solid var(--cream);
+  }
+  @media (max-width:600px){
+    .about-stats{grid-template-columns:1fr}
+  }
+  .about-stat{
+    padding:24px 16px;
+    border-right:1px solid var(--cream);
+  }
+  .about-stat:last-child{border-right:none}
+  @media (max-width:600px){
+    .about-stat{border-right:none;border-bottom:1px solid var(--cream)}
+    .about-stat:last-child{border-bottom:none}
+  }
+  .about-stat-num{
+    font-family:var(--serif);
+    font-size:42px;
+    font-weight:400;
+    line-height:1;
+    color:var(--noir);
+    letter-spacing:-1px;
+    margin-bottom:6px;
+  }
+  .about-stat-num em{
+    font-style:italic;
+    color:var(--blush);
+  }
+  .about-stat-label{
+    font-size:11px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:600;
+    line-height:1.4;
+  }
+
+  /* ================= SOCIAL PROOF ================= */
+  .proof{
+    background:var(--cream);
+    padding:80px 32px;
+  }
+  .proof-inner{
+    max-width:1080px;
+    margin:0 auto;
+  }
+  .proof-label{
+    font-size:10px;
+    letter-spacing:0.35em;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:700;
+    text-align:center;
+    margin-bottom:48px;
+  }
+  .quotes{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:48px;
+  }
+  @media (max-width:720px){.quotes{grid-template-columns:1fr;gap:32px}}
+  .quote{
+    padding-left:24px;
+    border-left:2px solid var(--blush);
+  }
+  .quote-text{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:400;
+    font-style:italic;
+    line-height:1.45;
+    color:var(--noir);
+    margin-bottom:16px;
+    letter-spacing:-0.3px;
+  }
+  .quote-author{
+    font-size:11px;
+    letter-spacing:0.2em;
+    text-transform:uppercase;
+    color:var(--gray);
+    font-weight:600;
+  }
+  .quote-author em{
+    font-style:normal;
+    color:var(--blush);
+    font-weight:700;
+  }
+
+  /* FINAL CTA */
+  .final-cta{
+    background:var(--noir);
+    color:var(--blanc);
+    padding:80px 32px;
+    text-align:center;
+  }
+  .final-cta-inner{
+    max-width:620px;
+    margin:0 auto;
+  }
+  .final-cta h3{
+    font-family:var(--serif);
+    font-size:clamp(28px, 3.5vw, 40px);
+    font-weight:400;
+    line-height:1.25;
+    margin-bottom:16px;
+    letter-spacing:-0.5px;
+  }
+  .final-cta h3 em{
+    font-style:italic;
+    color:var(--blush);
+  }
+  .final-cta p{
+    font-size:15px;
+    color:#a8a39e;
+    margin-bottom:36px;
+    line-height:1.6;
+  }
+  .final-cta .tg-btn{
+    max-width:480px;
+  }
+
+  /* FOOTER */
+  footer{
+    background:var(--blanc);
+    padding:56px 32px 40px;
+    border-top:1px solid var(--cream);
+  }
+  .footer-inner{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1.2fr 1fr 1fr;
+    gap:48px;
+    margin-bottom:36px;
+  }
+  @media (max-width:720px){.footer-inner{grid-template-columns:1fr;gap:32px}}
+  .footer-brand{
+    font-family:var(--serif);
+    font-size:32px;
+    font-weight:500;
+    letter-spacing:-0.5px;
+    margin-bottom:12px;
+  }
+  .footer-brand em{
+    font-style:italic;
+    color:var(--blush);
+  }
+  .footer-desc{
+    font-size:13px;
+    color:var(--gray);
+    line-height:1.6;
+    max-width:320px;
+  }
+  .footer-col h4{
+    font-size:10px;
+    letter-spacing:0.3em;
+    text-transform:uppercase;
+    color:var(--noir);
+    font-weight:700;
+    margin-bottom:16px;
+  }
+  .footer-col p,
+  .footer-col a{
+    font-size:13px;
+    color:var(--gray);
+    line-height:1.7;
+    text-decoration:none;
+    display:block;
+  }
+  .footer-col a:hover{color:var(--blush)}
+  .footer-col em{
+    color:var(--noir);
+    font-style:normal;
+    font-weight:600;
+  }
+  .footer-bottom{
+    max-width:1180px;
+    margin:0 auto;
+    padding-top:24px;
+    border-top:1px solid var(--cream);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    font-size:11px;
+    color:var(--gray);
+    letter-spacing:0.05em;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(24px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  @keyframes fadeIn{
+    from{opacity:0}
+    to{opacity:1}
+  }
+  @keyframes badgeIn{
+    from{opacity:0;transform:translateY(-10px) scale(.95)}
+    to{opacity:1;transform:translateY(0) scale(1)}
+  }
+  .hero-eyebrow,
+  .hero h1,
+  .hero-sub,
+  .hero-cta-wrap,
+  .hero-cta-trust{
+    animation:fadeUp .8s ease-out both;
+  }
+  .hero-eyebrow{animation-delay:.05s}
+  .hero h1{animation-delay:.15s}
+  .hero-sub{animation-delay:.3s}
+  .hero-cta-wrap{animation-delay:.45s}
+  .hero-cta-trust{animation-delay:.55s}
+  .hero-photo-wrap{animation:fadeIn 1s ease-out .2s both}
+  .badge-1{animation:badgeIn .6s ease-out .8s both}
+  .badge-2{animation:badgeIn .6s ease-out 1s both}
+  .badge-3{animation:badgeIn .6s ease-out 1.2s both}
+
+  .deco-line{
+    position:absolute;
+    top:50%;
+    left:0;right:0;
+    height:1px;
+    background:linear-gradient(90deg, transparent, var(--cream) 20%, var(--cream) 80%, transparent);
+    z-index:-1;
+    pointer-events:none;
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">Блог.<em>me</em></div>
+    <div class="topbar-label">Безкоштовний урок · 15 хв</div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <span class="accent-num" aria-hidden="true">01</span>
+  <div class="deco-line"></div>
+
+  <div class="hero-inner">
+
+    <!-- LEFT COLUMN -->
+    <div>
+      <div class="hero-eyebrow">Урок від Юлії Норець</div>
+
+      <h1>
+        Чому одні блоги <em>ростуть</em>,<br>
+        а інші <span class="strike">публікують</span> роками без результату
+      </h1>
+
+      <p class="hero-sub">
+        15-хвилинний урок про <strong>3 речі</strong>, без яких ріст блогу неможливий —
+        навіть якщо ти знімаєш рілси щодня, читаєш про алгоритми і повторюєш
+        формат успішних. <strong>Не теорія.</strong> Те, що я зрозуміла,
+        коли набрала 100К підписників з нуля за 4 місяці.
+      </p>
+
+      <div class="hero-cta-wrap">
+        <a href="https://tg.pulse.is/julianoretsbot?start=6a01ca3d1d2b78593a0b6063&username=value1&telegram_id=value2"
+           class="tg-btn" id="tgBtnHero" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.473-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+          </svg>
+          Отримати урок в Telegram
+        </a>
+      </div>
+      <p class="hero-cta-trust">
+        Урок прийде <strong>одразу</strong> в Telegram-бот. Без спаму. Без зайвих листів.
+      </p>
+    </div>
+
+    <!-- RIGHT COLUMN — PHOTO WITH BADGES -->
+    <div class="hero-photo-wrap">
+      <img src="images/julia-norets.jpg" alt="Юлія Норець" class="hero-photo">
+
+      <div class="badge badge-1">
+        <div class="badge-num"><em>100К</em></div>
+        <div class="badge-label">за 4 місяці<br>з нуля</div>
+      </div>
+
+      <div class="badge badge-2">
+        <div class="badge-num"><em>14</em> років</div>
+        <div class="badge-label">в Instagram</div>
+      </div>
+
+      <div class="badge badge-3">
+        <div class="badge-num"><em>2×</em></div>
+        <div class="badge-label">підняла блог<br>з нуля</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= ЩО В УРОЦІ ================= -->
+<section class="lesson">
+  <div class="lesson-inner">
+
+    <div class="lesson-header">
+      <div class="lesson-eyebrow">Що буде в уроці</div>
+      <h2>
+        15 хвилин, які можуть зекономити<br>
+        тобі <em>наступні 10 років</em>
+      </h2>
+    </div>
+
+    <div class="lesson-items">
+
+      <div class="lesson-item">
+        <div class="lesson-item-num">01</div>
+        <div class="lesson-item-content">
+          <h3>Чому 90% порад про блогінг не працюють</h3>
+          <p>І що насправді вирішує ріст. Спойлер: не алгоритми, не телефон і не кількість рілсів на тиждень.</p>
+        </div>
+      </div>
+
+      <div class="lesson-item">
+        <div class="lesson-item-num">02</div>
+        <div class="lesson-item-content">
+          <h3>3 кити, без яких будь-яка стратегія валиться</h3>
+          <p>Психологія, упаковка, контент. Я поясню кожен — і як перевірити їх у своєму блозі.</p>
+        </div>
+      </div>
+
+      <div class="lesson-item">
+        <div class="lesson-item-num">03</div>
+        <div class="lesson-item-content">
+          <h3>Розбір помилок, які я робила 10 років</h3>
+          <p>І чому, маючи старий блог зі 160К підписників, я була нікому не відома. Чесно, без прикрас.</p>
+        </div>
+      </div>
+
+      <div class="lesson-item">
+        <div class="lesson-item-num">04</div>
+        <div class="lesson-item-content">
+          <h3>Конкретні запитання, на які треба відповісти сьогодні</h3>
+          <p>Не «вивчити теорію», не «дочекатись правильного моменту». А сісти й відповісти — щоб блог почав рости.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="lesson-cta">
+      <a href="https://tg.pulse.is/julianoretsbot?start=6a01ca3d1d2b78593a0b6063&username=value1&telegram_id=value2"
+         class="tg-btn" id="tgBtnLesson" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.473-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+        </svg>
+        Отримати урок в Telegram
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= ПРО ЮЛЮ ================= -->
+<section class="about">
+  <div class="about-inner">
+
+    <div class="about-photo-wrap">
+      <img src="images/julia-norets.jpg" alt="Юлія Норець" class="about-photo">
+      <div class="about-photo-tag">
+        <em>@julia.norets</em> · Instagram
+      </div>
+    </div>
+
+    <div class="about-content">
+      <div class="about-eyebrow">Хто веде урок</div>
+      <h2>Мене звати <em>Юля Норець</em></h2>
+
+      <div class="about-bio">
+        <p><em>І так, я теж починала з нуля. Двічі.</em></p>
+        <p><strong>14 років в Instagram. 11 з них</strong> я веду блог.</p>
+        <p>
+          Свій блог я піднімала з нуля двічі. Перший раз — коли переїхала
+          в маленьке містечко і знімала сторіс на вулиці Фастова,
+          де ніхто не розумів, що таке блогер взагалі.
+        </p>
+        <p>
+          Другий раз — коли втратила свій основний акаунт і починала
+          спочатку, маючи на руках тільки голову і досвід.
+        </p>
+        <p>
+          За професією я, взагалі-то, вчитель.
+          Тому <strong>пояснювати — це моя суперсила</strong>.
+        </p>
+      </div>
+
+      <div class="about-stats">
+        <div class="about-stat">
+          <div class="about-stat-num"><em>100К</em></div>
+          <div class="about-stat-label">Підписників<br>за 4 місяці</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num"><em>11</em></div>
+          <div class="about-stat-label">Років<br>у блозі</div>
+        </div>
+        <div class="about-stat">
+          <div class="about-stat-num"><em>2×</em></div>
+          <div class="about-stat-label">З нуля<br>до топа</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= QUOTES ================= -->
+<section class="proof">
+  <div class="proof-inner">
+    <div class="proof-label">Що кажуть учениці</div>
+
+    <div class="quotes">
+      <div class="quote">
+        <p class="quote-text">
+          «Після уроку я зрозуміла, що 3 роки писала свій блог не для тих людей. Перебудувала упаковку за тиждень — і за місяць вперше отримала запит від бренду.»
+        </p>
+        <div class="quote-author">
+          Олена К. · <em>учениця Блог.me</em>
+        </div>
+      </div>
+
+      <div class="quote">
+        <p class="quote-text">
+          «Думала, що мені просто не вистачає харизми. Юля показала, що справа в системі, а не в особистості. Це звільнило.»
+        </p>
+        <div class="quote-author">
+          Марія Д. · <em>учениця Блог.me</em>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="final-cta">
+  <div class="final-cta-inner">
+    <h3>Через рік результат <em>буде</em>.</h3>
+    <p>Питання тільки в тому — твій чи чужий.</p>
+
+    <a href="https://tg.pulse.is/julianoretsbot?start=6a01ca3d1d2b78593a0b6063&username=value1&telegram_id=value2"
+       class="tg-btn" id="tgBtnFinal" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.473-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
+      </svg>
+      Отримати урок в Telegram
+    </a>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="footer-inner">
+
+    <div>
+      <div class="footer-brand">Блог.<em>me</em></div>
+      <p class="footer-desc">
+        Програма трансформації для жінок, які хочуть будувати Instagram-блог
+        як актив. Не курс — система.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Контакти</h4>
+      <p>Питання по уроку — <em>Вікторія</em>, продюсер</p>
+      <p><a href="https://t.me/victoria_dovzhuk" target="_blank" rel="noopener">Telegram: @victoria_dovzhuk</a></p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Юридична інформація</h4>
+      <p>ФОП Криворучко Олександр Степанович</p>
+      <p><a href="#privacy">Політика конфіденційності</a></p>
+      <p><a href="#offer">Договір публічної оферти</a></p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025–2026 · Блог.me · Юлія Норець</span>
+    <span>Зроблено з любов'ю до жінок, які роблять</span>
+  </div>
+</footer>
+
+<script>
+  /* ==========================================================
+     Meta Pixel · Subscribe event на кожен клік TG-кнопки.
+     Pixel ID: 4376682672588028
+     ========================================================== */
+  function trackTgSubscribe(location) {
+    if (typeof fbq !== 'undefined') {
+      fbq('track', 'Subscribe', {
+        content_name: 'Lead Magnet · Blog.me 15min lesson',
+        content_category: 'free-lesson-telegram',
+        currency: 'UAH',
+        value: 0,
+        predicted_ltv: 200,
+        button_location: location
+      });
+    }
+    /* Опціонально: GA4 */
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'subscribe', {
+        method: 'telegram',
+        source: 'lead-magnet-landing',
+        button_location: location
+      });
+    }
+  }
+
+  document.getElementById('tgBtnHero').addEventListener('click', function() {
+    trackTgSubscribe('hero');
+  });
+  document.getElementById('tgBtnLesson').addEventListener('click', function() {
+    trackTgSubscribe('lesson-section');
+  });
+  document.getElementById('tgBtnFinal').addEventListener('click', function() {
+    trackTgSubscribe('final-cta');
+  });
+</script>
+
+</body>
+</html>

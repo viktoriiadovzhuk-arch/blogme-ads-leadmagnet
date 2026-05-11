@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Блог Мі — Адмін</title>
+<link rel="icon" type="image/png" href="/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--noir:#1A1A1A;--blanc:#F7F4F0;--blush:#D4847A;--blush-d:#B8665C;--champ:#C9A96E;--gray:#8C8580;--cream:#EDE8E1;--sage:#8B9E7E;--df:'Cormorant Garamond',serif;--db:'DM Sans',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--db);background:var(--blanc);color:var(--noir);min-height:100vh;padding:40px 24px}
+.wrap{max-width:720px;margin:0 auto}
+.brand{font-family:var(--df);font-size:24px;font-weight:500;text-align:center}
+.brand em{font-style:italic;color:var(--blush)}
+.sub{text-align:center;font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--gray);margin-bottom:32px}
+.card{padding:32px;border:1px solid var(--cream);margin-bottom:24px;background:#fff}
+.card h2{font-family:var(--df);font-size:22px;font-weight:400;margin-bottom:16px}
+.fg{margin-bottom:14px}
+.fg label{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.fg input,.fg select{width:100%;padding:12px 14px;font-family:var(--db);font-size:14px;border:1px solid var(--cream);background:var(--blanc);outline:none}
+.fg input:focus,.fg select:focus{border-color:var(--blush)}
+.btn{padding:12px 20px;font-family:var(--db);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;transition:all .3s}
+.btn-full{width:100%}
+.btn-blush{background:var(--blush);color:var(--blanc)}.btn-blush:hover{background:var(--blush-d)}
+.btn-sage{background:var(--sage);color:var(--blanc)}.btn-sage:hover{background:#7a8d6e}
+.btn-sm{padding:6px 12px;font-size:10px}
+.btn-outline{background:none;border:1px solid var(--cream);color:var(--gray)}.btn-outline:hover{border-color:var(--blush);color:var(--blush)}
+.btn-danger{background:none;border:1px solid var(--blush);color:var(--blush)}.btn-danger:hover{background:var(--blush);color:var(--blanc)}
+.btn:disabled{opacity:.5;cursor:wait}
+.msg{margin-top:12px;padding:12px;font-size:13px;display:none;word-break:break-all}
+.msg.ok{display:block;background:rgba(139,158,126,.15);color:var(--sage)}
+.msg.err{display:block;background:rgba(212,132,122,.12);color:var(--blush-d)}
+.users-section h3{font-family:var(--df);font-size:22px;font-weight:500;margin-bottom:16px}
+.uc{background:#fff;border:1px solid var(--cream);padding:20px;margin-bottom:12px;transition:all .4s}
+.uc:hover{box-shadow:0 4px 16px -8px rgba(0,0,0,.1)}
+.uc.removing{opacity:0;transform:translateX(40px);pointer-events:none}
+.uc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+.uc-email{font-weight:600;font-size:15px;word-break:break-all}
+.uc-pass{font-family:monospace;font-size:16px;color:var(--blush);letter-spacing:2px;font-weight:700;margin-top:2px}
+.ptag{display:inline-block;padding:3px 10px;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.ptag.start{border:1px solid var(--blush);color:var(--blush)}
+.ptag.vip{background:var(--champ);color:var(--noir)}
+.uc-dates{display:flex;gap:20px;flex-wrap:wrap;font-size:12px;color:var(--gray);margin-bottom:12px}
+.uc-dates b{color:var(--noir);font-weight:600}
+.dbadge{display:inline-block;padding:2px 8px;font-size:11px;font-weight:700;letter-spacing:.08em}
+.dg{background:rgba(139,158,126,.15);color:var(--sage)}
+.do{background:rgba(201,169,110,.2);color:#8B7430}
+.dr{background:rgba(212,132,122,.15);color:var(--blush-d)}
+.de{background:var(--noir);color:var(--blanc)}
+.uc-acts{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.uc-acts input[type=number]{width:56px;padding:6px;font-family:var(--db);font-size:12px;border:1px solid var(--cream);text-align:center;outline:none}
+.no-users{padding:32px;text-align:center;color:var(--gray);font-size:14px;background:#fff;border:1px solid var(--cream)}
+.ucount{font-size:13px;color:var(--gray);margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Блог <em>Мі</em></div>
+  <div class="sub">Адмін-панель</div>
+
+  <div class="card" id="authCard">
+    <h2>Вхід</h2>
+    <div class="fg"><label>Admin ключ</label><input type="password" id="ak" placeholder="ADMIN_KEY" onkeydown="if(event.key==='Enter')doAuth()"></div>
+    <button class="btn btn-blush btn-full" onclick="doAuth()">Увійти</button>
+    <div class="msg" id="authMsg"></div>
+  </div>
+
+  <div id="panel" style="display:none">
+    <div class="card">
+      <h2>➕ Додати користувача</h2>
+      <div class="fg"><label>Email</label><input type="email" id="ne" placeholder="user@email.com"></div>
+      <div class="fg"><label>Тариф</label><select id="np"><option value="start">Start (180 днів)</option><option value="vip">VIP (365 днів)</option></select></div>
+      <button class="btn btn-sage btn-full" id="abtn" onclick="doAdd()">Додати користувача</button>
+      <div class="msg" id="addMsg"></div>
+    </div>
+    <div class="users-section">
+      <h3>👥 Користувачі</h3>
+      <div class="ucount" id="ucount"></div>
+      <div id="ulist"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+var KEY='';
+
+function call(body){
+  return fetch('/.netlify/functions/admin-users',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(Object.assign({adminKey:KEY},body))
+  }).then(function(r){
+    return r.json().then(function(d){return{ok:r.ok,status:r.status,data:d}});
+  });
+}
+
+function showMsg(id,type,text){
+  var el=document.getElementById(id);
+  el.className='msg '+type;
+  el.textContent=text;
+}
+
+function doAuth(){
+  KEY=document.getElementById('ak').value.trim();
+  if(!KEY){showMsg('authMsg','err','Введіть ключ');return}
+  call({action:'list'}).then(function(r){
+    if(!r.ok){showMsg('authMsg','err','Помилка: '+r.status+' '+(r.data.error||''));KEY='';return}
+    document.getElementById('authCard').style.display='none';
+    document.getElementById('panel').style.display='block';
+    draw(r.data.users||[]);
+  }).catch(function(e){showMsg('authMsg','err','Мережева помилка: '+e.message)});
+}
+
+function doAdd(){
+  var email=document.getElementById('ne').value.trim();
+  var plan=document.getElementById('np').value;
+  var btn=document.getElementById('abtn');
+  var msg=document.getElementById('addMsg');
+  if(!email||email.indexOf('@')<0){showMsg('addMsg','err','Введіть email');return}
+
+  btn.disabled=true;btn.textContent='Додаю...';
+  msg.className='msg';msg.style.display='none';
+
+  call({action:'add',email:email,plan:plan}).then(function(r){
+    btn.disabled=false;btn.textContent='Додати користувача';
+    if(!r.ok){showMsg('addMsg','err','Помилка '+r.status+': '+(r.data.error||JSON.stringify(r.data)));return}
+    showMsg('addMsg','ok','✅ Додано! Пароль: '+r.data.password+' | '+r.data.email+' | '+r.data.plan);
+    document.getElementById('ne').value='';
+    refresh();
+  }).catch(function(e){
+    btn.disabled=false;btn.textContent='Додати користувача';
+    showMsg('addMsg','err','Мережева помилка: '+e.message);
+  });
+}
+
+function doChangePlan(email,newPlan){
+  if(!confirm('Змінити тариф '+email+' на '+newPlan.toUpperCase()+'?'))return;
+  call({action:'changePlan',email:email,newPlan:newPlan}).then(function(r){
+    if(!r.ok){alert('Помилка: '+(r.data.error||''));return}
+    refresh();
+  }).catch(function(e){alert('Помилка: '+e.message)});
+}
+
+function doExtend(email,idx){
+  var inp=document.getElementById('x'+idx);
+  var days=parseInt(inp?inp.value:30)||30;
+  if(!confirm('Продовжити '+email+' на '+days+' днів?'))return;
+  call({action:'extend',email:email,days:days}).then(function(r){
+    if(!r.ok){alert('Помилка: '+(r.data.error||''));return}
+    refresh();
+  }).catch(function(e){alert('Помилка: '+e.message)});
+}
+
+function doDelete(email,idx){
+  if(!confirm('Видалити '+email+'?'))return;
+  if(!confirm('Точно видалити?'))return;
+  var el=document.getElementById('u'+idx);
+  if(el)el.classList.add('removing');
+  call({action:'delete',email:email}).then(function(r){
+    if(!r.ok){if(el)el.classList.remove('removing');alert('Помилка: '+(r.data.error||''));return}
+    setTimeout(refresh,300);
+  }).catch(function(e){if(el)el.classList.remove('removing');alert('Помилка: '+e.message)});
+}
+
+function refresh(){
+  call({action:'list'}).then(function(r){
+    if(r.ok)draw(r.data.users||[]);
+  }).catch(function(){});
+}
+
+function fd(iso){
+  if(!iso)return'—';
+  var d=new Date(iso);
+  return d.toLocaleDateString('uk',{day:'2-digit',month:'2-digit',year:'numeric'});
+}
+
+function db(n){
+  if(n<=0)return'<span class="dbadge de">ЗАКІНЧИВСЯ</span>';
+  if(n<=14)return'<span class="dbadge dr">'+n+' дн</span>';
+  if(n<=60)return'<span class="dbadge do">'+n+' дн</span>';
+  return'<span class="dbadge dg">'+n+' дн</span>';
+}
+
+function esc(s){return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+
+function draw(users){
+  document.getElementById('ucount').textContent='Всього: '+users.length;
+  var el=document.getElementById('ulist');
+  if(!users.length){el.innerHTML='<div class="no-users">Немає користувачів</div>';return}
+
+  var html='';
+  for(var i=0;i<users.length;i++){
+    var u=users[i];
+    var p=u.plan||'start';
+    var op=p==='vip'?'start':'vip';
+    var e=esc(u.email);
+    html+='<div class="uc" id="u'+i+'">'
+      +'<div class="uc-top">'
+        +'<div><div class="uc-email">'+u.email+'</div><div class="uc-pass">'+u.password+'</div></div>'
+        +'<span class="ptag '+p+'">'+p.toUpperCase()+'</span>'
+      +'</div>'
+      +'<div class="uc-dates">'
+        +'<span>З: <b>'+fd(u.createdAt)+'</b></span>'
+        +'<span>До: <b>'+fd(u.expiresAt)+'</b></span>'
+        +'<span>'+db(u.daysLeft)+'</span>'
+      +'</div>'
+      +'<div class="uc-acts">'
+        +'<button class="btn btn-sm btn-outline" onclick="doChangePlan(\''+e+'\',\''+op+'\')">→ '+op.toUpperCase()+'</button>'
+        +'<input type="number" id="x'+i+'" value="30" min="1" max="999">'
+        +'<button class="btn btn-sm btn-sage" onclick="doExtend(\''+e+'\','+i+')">+ Днів</button>'
+        +'<button class="btn btn-sm btn-danger" onclick="doDelete(\''+e+'\','+i+')">Видалити</button>'
+      +'</div>'
+    +'</div>';
+  }
+  el.innerHTML=html;
+}
+</script>
+</body>
+</html>

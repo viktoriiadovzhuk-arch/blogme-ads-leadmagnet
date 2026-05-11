@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Блог Мі — Платформа навчання</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noir:#1A1A1A;--blanc:#F7F4F0;--blush:#D4847A;--blush-d:#B8665C;
+  --champ:#C9A96E;--gray:#8C8580;--cream:#EDE8E1;--mauve:#6B4F5C;--sage:#8B9E7E;
+  --df:'Cormorant Garamond',serif;--db:'DM Sans',sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--db);background:var(--blanc);color:var(--noir);min-height:100vh}
+button{cursor:pointer}
+
+/* ===== LOGIN ===== */
+.login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px 24px}
+.login-card{max-width:420px;width:100%;padding:52px 44px;border:1px solid var(--cream);box-shadow:0 30px 60px -20px rgba(26,26,26,.12);text-align:center;background:var(--blanc)}
+.login-card .brand{font-family:var(--df);font-size:26px;font-weight:500;margin-bottom:6px}.brand em{font-style:italic;color:var(--blush)}
+.login-card .sub{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gray);margin-bottom:36px}
+.login-card h2{font-family:var(--df);font-size:28px;font-weight:400;margin-bottom:24px}
+.fg{text-align:left;margin-bottom:18px}.fg label{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray);margin-bottom:6px}
+.fg input{width:100%;padding:14px 16px;font-family:var(--db);font-size:15px;border:1px solid var(--cream);background:var(--blanc);outline:none;transition:border-color .3s}.fg input:focus{border-color:var(--blush)}
+.fg.pass-wrap{position:relative}
+.fg.pass-wrap input{padding-right:48px}
+.pass-toggle{position:absolute;right:4px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:22px;color:var(--gray);padding:12px;margin-top:10px;transition:color .3s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.pass-toggle:hover,.pass-toggle:active{color:var(--blush)}
+.lbtn{width:100%;padding:16px;font-family:var(--db);font-weight:700;font-size:13px;letter-spacing:.12em;text-transform:uppercase;background:var(--blush);color:var(--blanc);border:none;transition:background .4s var(--ease);margin-top:8px}.lbtn:hover{background:var(--blush-d)}.lbtn:disabled{opacity:.5}
+.lerr{margin-top:14px;padding:12px;background:rgba(212,132,122,.1);color:var(--blush-d);font-size:13px;display:none}.lerr.show{display:block}
+
+/* ===== DASHBOARD ===== */
+.dash{display:none}
+.dh{background:var(--noir);color:var(--blanc);padding:16px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.dh .brand{font-size:20px;font-weight:500;color:var(--blanc)}
+.dh-r{display:flex;align-items:center;gap:16px}
+.plan-badge{padding:5px 12px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--champ);color:var(--champ)}.plan-badge.vip{background:var(--champ);color:var(--noir)}
+.lo-btn{font-family:var(--db);font-size:11px;font-weight:500;color:rgba(247,244,240,.5);background:none;border:none;letter-spacing:.08em;text-transform:uppercase;transition:color .3s}.lo-btn:hover{color:var(--blush)}
+.admin-btn{font-family:var(--db);font-size:11px;font-weight:500;color:var(--champ);background:none;border:1px solid var(--champ);padding:4px 10px;letter-spacing:.06em;text-transform:uppercase;transition:all .3s}.admin-btn:hover{background:var(--champ);color:var(--noir)}
+
+/* Welcome */
+.welcome{padding:48px 28px 36px;max-width:880px;margin:0 auto}
+.welcome h1{font-family:var(--df);font-size:clamp(28px,4vw,42px);font-weight:400;line-height:1.1;margin-bottom:12px}
+.welcome h1 em{font-style:italic;color:var(--blush)}
+.welcome p{font-size:15px;line-height:1.6;color:#444;max-width:560px}
+.overall-stats{display:flex;gap:24px;margin-top:20px;flex-wrap:wrap}
+.os-item{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--gray)}
+.os-item b{color:var(--noir);font-size:18px;font-weight:600}
+
+/* Modules */
+.modules{max-width:880px;margin:0 auto;padding:0 28px 80px}
+.module{margin-bottom:32px;border:1px solid var(--cream);background:var(--blanc);transition:box-shadow .4s var(--ease)}
+.module:hover{box-shadow:0 12px 32px -16px rgba(26,26,26,.12)}
+.module.locked{opacity:.55;pointer-events:none;position:relative}
+.module.locked::after{content:"Доступно тільки для VIP";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--champ);color:var(--noir);padding:10px 20px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.module.locked-seq{opacity:.6;position:relative}
+.module.locked-seq .mod-body{display:none!important}
+.module.locked-seq .mod-header{cursor:default}
+.module.locked-seq::after{content:"🔒 Пройди попередній модуль";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--blush);color:var(--blanc);padding:10px 20px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.15)}
+
+/* Instructions */
+.instructions{max-width:880px;margin:0 auto;padding:0 28px 32px}
+.instr-card{background:var(--cream);padding:28px 32px;border-left:3px solid var(--blush)}
+.instr-card h3{font-family:var(--df);font-size:22px;font-weight:500;margin-bottom:14px;color:var(--noir)}
+.instr-card ol{padding-left:20px;display:grid;gap:8px}
+.instr-card li{font-size:14px;line-height:1.55;color:#444}
+.instr-card li b{color:var(--noir);font-weight:600}
+.instr-card .access-info{margin-top:16px;padding-top:16px;border-top:1px solid rgba(26,26,26,.1);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.instr-card .access-badge{padding:6px 14px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.access-badge.green{background:var(--sage);color:var(--blanc)}
+.access-badge.orange{background:var(--champ);color:var(--noir)}
+.access-badge.red{background:var(--blush);color:var(--blanc)}
+
+.mod-header{padding:24px 28px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;transition:background .3s}
+.mod-header:hover{background:rgba(237,232,225,.5)}
+.mod-header h2{font-family:var(--df);font-size:clamp(22px,2.6vw,30px);font-weight:600;display:flex;align-items:center;gap:12px;line-height:1.15}
+.mod-tag{font-family:var(--db);font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;background:var(--blush);color:var(--blanc);flex-shrink:0}
+.mod-tag.vip-tag{background:var(--champ);color:var(--noir)}
+.mod-meta{font-size:12px;color:var(--gray);display:flex;align-items:center;gap:12px;flex-shrink:0}
+.mod-meta .avg{display:flex;align-items:center;gap:4px;color:var(--champ)}
+.mod-chevron{width:24px;height:24px;transition:transform .4s var(--ease);color:var(--gray)}
+.mod-header[aria-expanded="true"] .mod-chevron{transform:rotate(180deg)}
+
+.mod-body{display:none;padding:0 28px 28px;border-top:1px solid var(--cream)}
+.mod-body.open{display:block}
+
+/* Lessons */
+.lesson{padding:20px 0;border-bottom:1px solid rgba(237,232,225,.7);display:grid;grid-template-columns:1fr;gap:12px}
+.lesson:last-child{border-bottom:none}
+.lesson.locked-lesson{opacity:.35;pointer-events:none}
+.lesson.locked-lesson .l-check{cursor:not-allowed}
+
+.l-top{display:flex;align-items:flex-start;gap:16px}
+.l-check{width:24px;height:24px;border:2px solid var(--cream);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;margin-top:2px}
+.l-check.done{background:var(--sage);border-color:var(--sage)}
+.l-check.done svg{display:block}
+.l-check svg{display:none;width:14px;height:14px;stroke:var(--blanc);stroke-width:3;fill:none}
+.l-info h4{font-size:16px;font-weight:500;margin-bottom:4px;line-height:1.3}
+.l-info .l-desc{font-size:13px;color:var(--gray);line-height:1.5}
+.l-lock-label{font-size:11px;color:var(--blush);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-top:4px}
+
+/* Lesson rating */
+.l-rating{display:flex;align-items:center;gap:8px;margin-top:4px}
+.l-rating span{font-size:12px;color:var(--gray)}
+.l-rating .rating-val{font-weight:700;color:var(--champ);font-size:13px}
+.mod-avg-inline{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--champ);font-weight:600}
+.stars{display:inline-flex;gap:2px}
+.star{width:20px;height:20px;cursor:pointer;color:#C8C2BA;transition:color .2s;opacity:.5}
+.star.active{opacity:1}
+.star.active{color:var(--champ)}
+.star svg{width:100%;height:100%;fill:currentColor}
+
+/* Video + materials */
+.l-video{margin-top:8px;aspect-ratio:16/9;background:var(--noir);display:flex;align-items:center;justify-content:center;color:var(--gray);font-family:var(--df);font-size:18px;font-style:italic;max-width:640px}
+.l-materials{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.l-mat{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:var(--cream);font-size:12px;font-weight:500;color:var(--noir);text-decoration:none;transition:background .3s;letter-spacing:.02em}
+.l-mat:hover{background:var(--blush);color:var(--blanc)}
+
+/* Module review section */
+.mod-reviews{margin-top:24px;padding-top:24px;border-top:1px solid var(--cream)}
+.mod-reviews h3{font-family:var(--df);font-size:22px;font-weight:500;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.mod-reviews .avg-big{font-size:28px;font-weight:600;color:var(--champ)}
+.mod-reviews .avg-count{font-size:13px;color:var(--gray);font-weight:400}
+
+/* Review form */
+.rev-form{background:var(--cream);padding:24px;margin-bottom:20px}
+.rev-form .stars{gap:4px;margin-bottom:12px}.rev-form .star{width:28px;height:28px}
+.rev-form textarea{width:100%;min-height:80px;padding:14px;font-family:var(--db);font-size:14px;border:1px solid rgba(26,26,26,.1);background:var(--blanc);resize:vertical;outline:none;margin-bottom:12px}.rev-form textarea:focus{border-color:var(--blush)}
+.rev-form .fg{margin-bottom:12px}
+.rev-form button{padding:12px 24px;font-family:var(--db);font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;background:var(--blush);color:var(--blanc);border:none;transition:background .3s}.rev-form button:hover{background:var(--blush-d)}
+
+/* Reviews list */
+.rev-list{display:grid;gap:16px}
+.rev-pagination{display:flex;justify-content:center;gap:6px;margin-top:16px}
+.rev-pagination button{width:32px;height:32px;border:1px solid var(--cream);background:var(--blanc);font-family:var(--db);font-size:12px;font-weight:600;color:var(--gray);cursor:pointer;transition:all .3s}
+.rev-pagination button.active{background:var(--blush);color:var(--blanc);border-color:var(--blush)}
+.rev-pagination button:hover{border-color:var(--blush)}
+.rev-item{padding:20px;background:rgba(237,232,225,.4);position:relative}
+.rev-item .rev-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.rev-item .rev-author{font-weight:600;font-size:14px}
+.rev-item .rev-date{font-size:11px;color:var(--gray)}
+.rev-item .rev-stars{display:flex;gap:2px;margin-bottom:6px}
+.rev-item .rev-stars .star{width:14px;height:14px;cursor:default}
+.rev-item .rev-text{font-size:14px;line-height:1.55;color:#333}
+.rev-del{position:absolute;top:8px;right:8px;background:none;border:none;font-size:16px;color:var(--gray);display:none;transition:color .3s}.rev-del:hover{color:red}
+body.admin-mode .rev-del{display:block}
+
+/* Responsive */
+@media(max-width:640px){
+  .dh{padding:14px 18px}
+  .welcome{padding:36px 18px 28px}
+  .modules{padding:0 18px 60px}
+  .mod-header{padding:20px 18px}
+  .mod-body{padding:0 18px 18px}
+  .mod-header h2{font-size:20px;gap:8px}
+  .l-video{max-width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="loginScreen">
+  <div class="login-card">
+    <div class="brand">Блог <em>Мі</em></div>
+    <div class="sub">Платформа навчання</div>
+    <h2>Вхід</h2>
+    <div class="fg"><label>Email</label><input type="email" id="inEmail" placeholder="your@email.com"></div>
+    <div class="fg pass-wrap"><label>Пароль</label><input type="password" id="inPass" placeholder="6-значний код"><button type="button" class="pass-toggle" onclick="togglePass()" id="passToggle">👁</button></div>
+    <button class="lbtn" id="loginBtn">Увійти</button>
+    <div class="lerr" id="loginErr"></div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dash" id="dash">
+  <header class="dh">
+    <div class="brand">Блог <em>Мі</em></div>
+    <div class="dh-r">
+      <div class="plan-badge" id="planBadge">START</div>
+      <button class="admin-btn" id="adminToggle" style="display:none" onclick="toggleAdmin()">Admin</button>
+      <button class="lo-btn" onclick="logout()">Вийти</button>
+    </div>
+  </header>
+
+  <div class="welcome">
+    <h1>Привіт, <em>Блогерійко!</em></h1>
+    <p>Ти всередині. Тут усі матеріали програми «Блог Мі». Переглядай уроки, відмічай пройдені і рости свій блог.</p>
+    <div class="overall-stats" id="overallStats"></div>
+  </div>
+
+  <!-- Instructions -->
+  <div class="instructions">
+    <div class="instr-card">
+      <h3>📋 Як проходити програму</h3>
+      <ol>
+        <li><b>Дивись уроки по порядку</b> — наступний урок відкривається тільки після того, як відмітиш попередній галочкою ✓</li>
+        <li><b>Відмічай пройдені уроки</b> — натисни галочку зліва від назви уроку після перегляду</li>
+        <li><b>Наступний модуль</b> відкривається лише після завершення всіх уроків попереднього модулю</li>
+        <li><b>Оцінюй уроки</b> зірочками (1-5) — це допомагає нам покращувати програму</li>
+        <li><b>Залишай відгук</b> по кожному модулю — поділися враженнями з іншими учасницями</li>
+      </ol>
+      <div class="access-info">
+        <span style="font-size:13px;color:var(--gray)">Твій доступ:</span>
+        <span class="access-badge" id="accessBadge">—</span>
+        <span style="font-size:13px;color:var(--gray)" id="accessText"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="modules" id="modulesContainer"></div>
+</div>
+
+<script>
+// ===== COURSE DATA =====
+const COURSE = [
+  { id:"m0", title:"Стартовий урок", tag:"Старт", vipOnly:false,
+    lessons:[
+      {id:"0.0",title:"Перший подих Блог Мі",desc:"Вступний урок — знайомство з платформою та програмою",video:"",materials:["Програма курсу PDF"]}
+    ]},
+  { id:"m1", title:"Психологія та ідентичність", tag:"01", vipOnly:false,
+    lessons:[
+      {id:"1.1",title:"Навіщо тобі блог?",desc:"Три моделі блогу: для душі, для доходу, для бренду. Як визначити свою точку Б.",video:"",materials:["Воркбук: Моя точка Б"]},
+      {id:"1.2",title:"Синдром самозванця і страх осуду",desc:"Звідки береться синдром самозванця і як з ним жити — не перемагаючи, а перестаючи слухати.",video:"",materials:["Вправа: Робота зі страхами"]},
+      {id:"1.3",title:"Особистий бренд у 2026",desc:"Що реально працює зараз і чому 90% блогерок застрягли в минулому.",video:"",materials:["Гайд: Тренди 2026"]},
+      {id:"1.4",title:"Ніша і аудиторія",desc:"Як знайти свою нішу, визначити аудиторію і нарешті відповісти «мій блог — про ось це».",video:"",materials:["Воркбук: Моя ніша"]},
+      {id:"1.5",title:"Хейт як сила",desc:"Що робити в перші 30 секунд після хейт-коментаря. Чому хейт — індикатор правильного шляху.",video:"",materials:["Чек-лист: Хейт"]},
+      {id:"1.6",title:"Чому одні блоги ростуть?",desc:"10 конкретних речей і 4 питання, які ти маєш поставити собі перед кожним постом.",video:"",materials:["Чек-лист: 10 факторів росту"]},
+      {id:"z1",title:"🔴 Zoom №1 — Розпаковка себе як блогерки",desc:"Жива зустріч з Юлею",video:"",materials:["Посилання на Zoom"],vipOnly:true,isZoom:true}
+    ]},
+  { id:"m2", title:"Упаковка та технічна база", tag:"02", vipOnly:false,
+    lessons:[
+      {id:"2.1",title:"Чотири групи блогів і як упакувати кожну",desc:"Дізнайся, до якої групи належиш ти, і як виглядати так, щоб тебе запам'ятали з першого свайпу.",video:"",materials:["Таблиця: 4 групи"]},
+      {id:"2.2",title:"Як оформити профіль так, щоб за 5 секунд було зрозуміло, хто ти",desc:"Формула, яка перетворює випадкових гостей на підписників.",video:"",materials:["Шаблон: Шапка профілю"]},
+      {id:"2.3",title:"Візуальний код блогера",desc:"Як зробити так, щоб вас впізнавали ще до ніку — за кольором, ракурсом, стилем.",video:"",materials:["Приклади візуальних кодів"]},
+      {id:"2.4",title:"Перші 20 публікацій: як зібрати портфоліо",desc:"Як зібрати сильне портфоліо з нуля — на телефон, без дорогої техніки.",video:"",materials:["Чек-лист: Портфоліо"]},
+      {id:"2.5",title:"10 помилок у блозі, на які я витратила 30 тисяч доларів",desc:"Кожна з цих помилок — те, що ти, скоріш за все, робиш прямо зараз.",video:"",materials:["Чек-лист: 10 помилок"]},
+      {id:"z2",title:"🔴 Zoom №2 — Розбір профілів учасників",desc:"Жива зустріч з Юлею",video:"",materials:["Посилання на Zoom"],vipOnly:true,isZoom:true}
+    ]},
+  { id:"m3", title:"Контент, сторітелінг та системи", tag:"03", vipOnly:false,
+    lessons:[
+      {id:"3.1",title:"Моя система контенту 70/20/10",desc:"Формула, яка дає одночасно ріст, довіру і комерційні співпраці.",video:"",materials:["Таблиця: Система 70/20/10"]},
+      {id:"3.2",title:"Як я знайшла свою формулу контенту і як знайти свою",desc:"Конкретний фреймворк для пошуку свого підходу до контенту.",video:"",materials:["Фреймворк: Формула контенту"]},
+      {id:"3.3",title:"Що знімати, щоб на тебе підписувались: 7 сюжетних архетипів",desc:"7 типів історій, які люди хочуть дивитися знову і знову.",video:"",materials:["Таблиця: 7 архетипів"]},
+      {id:"3.4",title:"Як побудувати рілс, який додивляються",desc:"Тригери, хуки, монтажні прийоми, структура від першого кадру до останнього.",video:"",materials:["Чек-лист: Рілс"]},
+      {id:"3.5",title:"Як органічно рости: рілси і колаби",desc:"Стратегії органічного росту без реклами, які працюють у 2026.",video:"",materials:["Стратегія: Органічний ріст"]},
+      {id:"z3",title:"🔴 Zoom №3 — Відповіді на питання учасників",desc:"Жива зустріч з Юлею",video:"",materials:["Посилання на Zoom"],vipOnly:true,isZoom:true}
+    ]},
+  { id:"m4", title:"Монетизація", tag:"04", vipOnly:false,
+    lessons:[
+      {id:"4.1",title:"Коли блог уже готовий до монетизації?",desc:"Конкретні ознаки готовності. Чесно скажу: готова ти чи ще ні.",video:"",materials:["Чек-лист: Готовність"]},
+      {id:"4.2",title:"Шляхи монетизації",desc:"Всі 10 способів заробітку з блогу — від найпростіших до найприбутковіших.",video:"",materials:["Таблиця: Шляхи монетизації"]},
+      {id:"4.3",title:"Бренди: як знайти, написати пропозицію і отримати першу угоду",desc:"Готовий шаблон листа, список де шукати бренди, приклади що працює.",video:"",materials:["Шаблон: Лист бренду"]},
+      {id:"4.4",title:"Чому бренди купують не тільки охоплення?",desc:"5 речей, на які дивиться бренд — і про які більшість блогерів не здогадуються.",video:"",materials:["Шаблон: Медіа-кіт","Шаблон: Прайс"]},
+      {id:"4.5",title:"Ваша стратегія росту після курсу",desc:"Конкретний план по тижнях з метриками і чек-поінтами на 3 місяці.",video:"",materials:["Стратегія росту"]},
+      {id:"4.6",title:"Моя точка Б: як блог змінив моє життя і що може дати тобі",desc:"Як може виглядати твоє «після». І чому починати варто саме зараз.",video:"",materials:["Фінальний чек-лист"]},
+      {id:"z4",title:"🔴 Zoom №4 — Як не злитися після навчання",desc:"Жива зустріч з Юлею",video:"",materials:["Посилання на Zoom"],vipOnly:true,isZoom:true}
+    ]},
+  { id:"m5", title:"Записи Zoom-зустрічей", tag:"ZOOM", vipOnly:false, alwaysOpen:true,
+    lessons:[
+      {id:"zr1",title:"Запис Zoom №1 — Розпаковка себе як блогерки",desc:"Запис першої живої зустрічі",video:"",materials:[]},
+      {id:"zr2",title:"Запис Zoom №2 — Розбір профілів учасників",desc:"Запис другої живої зустрічі",video:"",materials:[]},
+      {id:"zr3",title:"Запис Zoom №3 — Відповіді на питання",desc:"Запис третьої живої зустрічі",video:"",materials:[]},
+      {id:"zr4",title:"Запис Zoom №4 — Як не злитися після навчання",desc:"Запис четвертої живої зустрічі",video:"",materials:[]}
+    ]},
+  { id:"m6", title:"Бонусні уроки від спікерів", tag:"БОНУС", vipOnly:true,
+    lessons:[
+      {id:"b1",title:"Ольга Ковальчук — Мислення успішної людини",desc:"Як досягати поставлених цілей",video:"",materials:[]},
+      {id:"b2",title:"Наті Ґресько — Як розвивати YouTube",desc:"Стратегії для YouTube-каналу",video:"",materials:[]},
+      {id:"b3",title:"Альона Маслова — Як бренди обирають блогерів",desc:"Погляд зсередини рекламної індустрії",video:"",materials:[]},
+      {id:"b4",title:"Тіара — Про впевненість у собі",desc:"Внутрішня сила і впевненість блогерки",video:"",materials:[]},
+      {id:"b5",title:"Юлія Гавеля — Як заробляти на UGC-контенті",desc:"Практичний гайд по UGC",video:"",materials:[]}
+    ]}
+];
+
+// ===== STATE =====
+let state = { token:null, plan:null, email:null, progress:{completed:[],ratings:{}}, isAdmin:false, daysLeft:0, expiresAt:null };
+
+// ===== AUTH =====
+function togglePass(){
+  const inp=document.getElementById('inPass');
+  const btn=document.getElementById('passToggle');
+  if(inp.type==='password'){inp.type='text';btn.textContent='🔒'}
+  else{inp.type='password';btn.textContent='👁'}
+}
+
+document.getElementById('loginBtn').onclick = async()=>{
+  const email=document.getElementById('inEmail').value.trim();
+  const pass=document.getElementById('inPass').value.trim();
+  const err=document.getElementById('loginErr');
+  const btn=document.getElementById('loginBtn');
+  if(!email||!pass){err.textContent='Введіть email і пароль';err.classList.add('show');return}
+  btn.disabled=true;btn.textContent='Перевіряю...';err.classList.remove('show');
+  try{
+    const r=await fetch('/.netlify/functions/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d=await r.json();
+    if(!r.ok){err.textContent=d.error||'Помилка входу';err.classList.add('show');btn.disabled=false;btn.textContent='Увійти';return}
+    state.token=d.token;state.plan=d.plan;state.email=email;state.daysLeft=d.daysLeft||0;state.expiresAt=d.expiresAt;
+    sessionStorage.setItem('bm_token',d.token);sessionStorage.setItem('bm_plan',d.plan);sessionStorage.setItem('bm_email',email);
+    sessionStorage.setItem('bm_daysLeft',d.daysLeft);sessionStorage.setItem('bm_expiresAt',d.expiresAt);
+    await loadProgress();
+    showDashboard();
+  }catch{err.textContent='Помилка з\'єднання';err.classList.add('show');btn.disabled=false;btn.textContent='Увійти'}
+};
+function logout(){sessionStorage.clear();state={token:null,plan:null,email:null,progress:{completed:[],ratings:{}},isAdmin:false};
+  document.getElementById('loginScreen').style.display='flex';document.getElementById('dash').style.display='none';document.body.classList.remove('admin-mode')}
+
+// ===== PROGRESS API =====
+async function loadProgress(){
+  try{
+    const r=await fetch('/.netlify/functions/get-progress?token='+state.token);
+    const d=await r.json();
+    if(d.ok && d.progress) state.progress=d.progress;
+  }catch{}
+  // Fallback to sessionStorage
+  if(!state.progress.completed.length){
+    try{
+      const saved=sessionStorage.getItem('bm_progress');
+      if(saved){const p=JSON.parse(saved);if(p.completed)state.progress=p}
+    }catch{}
+  }
+}
+async function saveProgress(lessonId,completed,rating){
+  // Save to sessionStorage as backup
+  try{sessionStorage.setItem('bm_progress',JSON.stringify(state.progress))}catch{}
+  try{await fetch('/.netlify/functions/save-progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:state.token,lessonId,completed,rating})})}catch{}}
+
+// ===== REVIEWS API =====
+async function loadReviews(moduleId){
+  try{const r=await fetch('/.netlify/functions/get-reviews?moduleId='+moduleId);return await r.json()}catch{return{reviews:[],avg:0,count:0}}}
+async function submitReview(moduleId,rating,comment,name){
+  try{await fetch('/.netlify/functions/save-review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({token:state.token,moduleId,rating,comment,name})})}catch{}}
+async function deleteReview(moduleId,reviewId){
+  const ak=prompt('Введіть admin-ключ:');if(!ak)return;
+  try{await fetch('/.netlify/functions/delete-review',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({adminKey:ak,moduleId,reviewId})})}catch{}}
+
+// ===== ADMIN =====
+function toggleAdmin(){
+  if(!state.isAdmin){const k=prompt('Введіть admin-ключ:');if(!k)return;state.isAdmin=true}
+  else{state.isAdmin=false}
+  document.body.classList.toggle('admin-mode',state.isAdmin);
+  document.getElementById('adminToggle').textContent=state.isAdmin?'Admin ✓':'Admin';
+}
+
+// ===== RENDER =====
+function isAdmin(){ return state.plan === 'admin'; }
+
+function isLessonUnlocked(moduleId,lessonIndex){
+  if(isAdmin()) return true;
+  const mod=COURSE.find(m=>m.id===moduleId);if(!mod)return false;
+  if(lessonIndex===0)return true;
+  const prevLesson=mod.lessons[lessonIndex-1];
+  if(prevLesson.vipOnly && state.plan!=='vip') return isLessonUnlocked(moduleId,lessonIndex-1);
+  return state.progress.completed.includes(prevLesson.id);
+}
+
+function isModuleUnlocked(moduleIndex){
+  if(isAdmin()) return true;
+  const mod=COURSE[moduleIndex];
+  if(mod.alwaysOpen) return true;
+  if(moduleIndex===0) return true;
+  for(let i=moduleIndex-1;i>=0;i--){
+    const prevMod=COURSE[i];
+    if(prevMod.vipOnly && state.plan!=='vip') continue;
+    if(prevMod.alwaysOpen) continue;
+    const accessibleLessons=prevMod.lessons.filter(l=>!l.vipOnly||state.plan==='vip'||isAdmin());
+    const allDone=accessibleLessons.every(l=>state.progress.completed.includes(l.id));
+    return allDone;
+  }
+  return true;
+}
+
+function isCompleted(id){return state.progress.completed.includes(id)}
+function getRating(id){return state.progress.ratings[id]||0}
+
+function starsSVG(){return '<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'}
+
+function renderStars(containerId,current,onRate){
+  const el=document.getElementById(containerId);if(!el)return;
+  el.innerHTML='';
+  for(let i=1;i<=5;i++){
+    const s=document.createElement('span');s.className='star'+(i<=current?' active':'');
+    s.innerHTML=starsSVG();
+    s.onclick=()=>{if(onRate)onRate(i)};
+    el.appendChild(s);
+  }
+}
+
+async function verifySession(){
+  if(!state.token || isAdmin()) return;
+  try{
+    const r=await fetch('/.netlify/functions/verify-session?token='+state.token);
+    const d=await r.json();
+    if(!d.valid){
+      if(d.reason==='another_device') alert('Хтось увійшов у ваш акаунт з іншого пристрою. Ви будете вилогінені.');
+      logout();
+    }
+  }catch{}
+}
+
+function showDashboard(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('dash').style.display='block';
+  const badge=document.getElementById('planBadge');
+  if(isAdmin()){badge.textContent='ADMIN';badge.classList.add('vip')}
+  else{badge.textContent=state.plan.toUpperCase();if(state.plan==='vip')badge.classList.add('vip')}
+  document.getElementById('adminToggle').style.display='inline-block';
+  const days=state.daysLeft||0;
+  const ab=document.getElementById('accessBadge');
+  const at=document.getElementById('accessText');
+  if(isAdmin()){ab.className='access-badge green';ab.textContent='\u221e';at.textContent='Admin'}
+  else{
+    const mx=state.plan==='vip'?365:180;
+    if(days>60){ab.className='access-badge green';ab.textContent=days+' днів'}
+    else if(days>14){ab.className='access-badge orange';ab.textContent=days+' днів'}
+    else{ab.className='access-badge red';ab.textContent=days+' днів'}
+    at.textContent=state.plan==='vip'?'VIP · '+mx+' днів':'Start · '+mx+' днів';
+  }
+  renderModules();updateOverallStats();
+  if(!isAdmin()) setInterval(verifySession,120000);
+  // Show PWA install banner (works for iOS + Android)
+  setTimeout(()=>{
+    const isIOS2=/iPad|iPhone|iPod/.test(navigator.userAgent);
+    const isSA=window.matchMedia('(display-mode:standalone)').matches||window.navigator.standalone;
+    if(!isSA && !sessionStorage.getItem('pwa_dismissed')){
+      const b=document.getElementById('pwaBanner');
+      if(b) b.classList.add('show');
+    }
+  },3000);
+}
+
+function updateOverallStats(){
+  const totalLessons=COURSE.filter(m=>!m.vipOnly||state.plan==='vip'||isAdmin()).reduce((s,m)=>{
+    return s+m.lessons.filter(l=>!l.vipOnly||state.plan==='vip'||isAdmin()).length;
+  },0);
+  const done=state.progress.completed.length;
+  const pct=totalLessons>0?Math.round(done/totalLessons*100):0;
+  document.getElementById('overallStats').innerHTML=
+    '<div class="os-item"><b>'+done+'</b>/'+totalLessons+' уроків</div>'+
+    '<div class="os-item"><b>'+pct+'%</b> прогрес</div>';
+}
+
+function renderModules(){
+  const c=document.getElementById('modulesContainer');c.innerHTML='';
+  COURSE.forEach((mod,modIdx)=>{
+    const isVipLocked=mod.vipOnly&&state.plan!=='vip'&&!isAdmin();
+    const isSeqLocked=!isVipLocked&&!isModuleUnlocked(modIdx);
+    const div=document.createElement('div');
+    div.className='module'+(isVipLocked?' locked':'')+(isSeqLocked?' locked-seq':'');
+    div.id='module-'+mod.id;
+    const accessibleLessons=mod.lessons.filter(l=>!l.vipOnly||state.plan==='vip'||isAdmin());
+    const modDone=accessibleLessons.filter(l=>isCompleted(l.id)).length;
+    const tagClass=mod.vipOnly?'mod-tag vip-tag':(mod.alwaysOpen?'mod-tag':'mod-tag');
+
+    div.innerHTML=`
+      <div class="mod-header" onclick="toggleModule('${mod.id}')" aria-expanded="false">
+        <h2><span class="${tagClass}">${mod.tag}</span>${mod.title}</h2>
+        <div class="mod-meta">
+          <span>${modDone}/${accessibleLessons.length}</span>
+          <span class="avg" id="avg-badge-${mod.id}"></span>
+          <svg class="mod-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+      <div class="mod-body" id="body-${mod.id}">
+        <div id="lessons-${mod.id}"></div>
+        <div class="mod-reviews" id="reviews-section-${mod.id}">
+          <h3>Відгуки · <span class="avg-big" id="avg-${mod.id}">—</span> <span class="avg-count" id="avgcount-${mod.id}"></span></h3>
+          <div class="rev-form">
+            <p style="font-size:13px;color:var(--gray);margin-bottom:12px">Оціни цей модуль і залиш відгук:</p>
+            <div class="stars" id="rev-stars-${mod.id}"></div>
+            <div class="fg"><label>Твоє імʼя</label><input type="text" id="rev-name-${mod.id}" placeholder="Як тебе звати"></div>
+            <textarea id="rev-text-${mod.id}" placeholder="Твій відгук про модуль..."></textarea>
+            <button onclick="submitModReview('${mod.id}')">Надіслати відгук</button>
+          </div>
+          <div class="rev-list" id="rev-list-${mod.id}"></div>
+        </div>
+      </div>
+    `;
+    c.appendChild(div);
+
+    if(!isVipLocked && !isSeqLocked){
+      renderLessons(mod);
+      updateModuleAvg(mod.id);
+      renderStars('rev-stars-'+mod.id,0,(r)=>{
+        document.getElementById('rev-stars-'+mod.id).dataset.rating=r;
+        renderStars('rev-stars-'+mod.id,r,(r2)=>{
+          document.getElementById('rev-stars-'+mod.id).dataset.rating=r2;
+          renderStars('rev-stars-'+mod.id,r2,null);
+        });
+      });
+      loadModuleReviews(mod.id);
+    }
+  });
+}
+
+function renderLessons(mod){
+  const container=document.getElementById('lessons-'+mod.id);if(!container)return;
+  container.innerHTML='';
+  mod.lessons.forEach((lesson,idx)=>{
+    const lessonVipLocked=lesson.vipOnly&&state.plan!=='vip'&&!isAdmin();
+    const unlocked=!lessonVipLocked&&isLessonUnlocked(mod.id,idx);
+    const done=isCompleted(lesson.id);
+    const rating=getRating(lesson.id);
+    const div=document.createElement('div');
+    div.className='lesson'+(lessonVipLocked?' locked-lesson vip-lesson':'')+((!unlocked&&!lessonVipLocked)?' locked-lesson':'');
+    div.id='lesson-'+lesson.id;
+
+    let matsHtml='';
+    if(lesson.materials.length>0){
+      matsHtml='<div class="l-materials">'+lesson.materials.map(m=>'<a class="l-mat" href="#" onclick="event.preventDefault()">📎 '+m+'</a>').join('')+'</div>';
+    }
+
+    div.innerHTML=`
+      <div class="l-top">
+        <div class="l-check${done?' done':''}" onclick="toggleLesson('${mod.id}','${lesson.id}',${idx})">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div class="l-info">
+          <h4>${lesson.title}</h4>
+          <div class="l-desc">${lesson.desc}</div>
+          ${lessonVipLocked?'<div class="l-lock-label">🔐 Доступно тільки для VIP</div>':(!unlocked?'<div class="l-lock-label">🔒 Пройди попередній урок</div>':'')}
+          <div class="l-rating">
+            <span>Оцінка:</span>
+            <div class="stars" id="stars-${lesson.id}"></div>
+            <span class="rating-val" id="rval-${lesson.id}">${rating?'★ '+rating+'/5':''}</span>
+          </div>
+        </div>
+      </div>
+      ${unlocked?'<div class="l-video" id="video-'+lesson.id+'">'+(lesson.video?'<iframe src="'+lesson.video+'" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>':'Відео буде тут')+'</div>':''}
+      ${unlocked?matsHtml:''}
+    `;
+    container.appendChild(div);
+    if(unlocked){
+      renderStars('stars-'+lesson.id,rating,(r)=>{
+        state.progress.ratings[lesson.id]=r;
+        saveProgress(lesson.id,null,r);
+        renderStars('stars-'+lesson.id,r,null);
+        const rv=document.getElementById('rval-'+lesson.id);
+        if(rv) rv.textContent='★ '+r+'/5';
+        updateModuleAvg(mod.id);
+      });
+    }
+  });
+}
+
+function toggleLesson(moduleId,lessonId,idx){
+  if(!isLessonUnlocked(moduleId,idx))return;
+  const done=isCompleted(lessonId);
+  if(done){
+    state.progress.completed=state.progress.completed.filter(id=>id!==lessonId);
+    saveProgress(lessonId,false,null);
+  }else{
+    state.progress.completed.push(lessonId);
+    saveProgress(lessonId,true,null);
+  }
+  // Re-render only this module's lessons (preserves scroll + open state)
+  const mod=COURSE.find(m=>m.id===moduleId);
+  if(mod) renderLessons(mod);
+  updateModuleHeader(moduleId);
+  updateOverallStats();
+  // Check if next module should unlock (without full re-render)
+  const modIdx=COURSE.findIndex(m=>m.id===moduleId);
+  if(modIdx>=0 && modIdx<COURSE.length-1){
+    const nextMod=COURSE[modIdx+1];
+    const nextEl=document.getElementById('module-'+nextMod.id);
+    if(nextEl){
+      if(isModuleUnlocked(modIdx+1)){
+        if(nextEl.classList.contains('locked-seq')){
+          nextEl.classList.remove('locked-seq');
+          renderLessons(nextMod);
+          // Init review stars for newly unlocked module
+          renderStars('rev-stars-'+nextMod.id,0,(r)=>{
+            document.getElementById('rev-stars-'+nextMod.id).dataset.rating=r;
+            renderStars('rev-stars-'+nextMod.id,r,null);
+          });
+          loadModuleReviews(nextMod.id);
+        }
+      } else {
+        if(!nextEl.classList.contains('locked-seq') && !nextEl.classList.contains('locked')){
+          nextEl.classList.add('locked-seq');
+        }
+      }
+    }
+  }
+}
+
+function updateModuleAvg(moduleId){
+  const mod=COURSE.find(m=>m.id===moduleId);if(!mod)return;
+  const rated=mod.lessons.filter(l=>state.progress.ratings[l.id]);
+  if(rated.length===0)return;
+  const avg=(rated.reduce((s,l)=>s+state.progress.ratings[l.id],0)/rated.length).toFixed(1);
+  const badge=document.getElementById('avg-badge-'+moduleId);
+  if(badge) badge.innerHTML='<span class="mod-avg-inline">★ '+avg+'</span>';
+}
+
+function updateModuleHeader(moduleId){
+  const mod=COURSE.find(m=>m.id===moduleId);if(!mod)return;
+  const modDone=mod.lessons.filter(l=>isCompleted(l.id)).length;
+  const header=document.querySelector('#module-'+moduleId+' .mod-meta span:first-child');
+  if(header)header.textContent=modDone+'/'+mod.lessons.length;
+}
+
+function toggleModule(moduleId){
+  const body=document.getElementById('body-'+moduleId);
+  const header=body.previousElementSibling;
+  const isOpen=body.classList.contains('open');
+  body.classList.toggle('open');
+  header.setAttribute('aria-expanded',!isOpen);
+}
+
+// ===== REVIEWS =====
+const REV_PER_PAGE=4;
+const reviewsCache={};
+
+async function loadModuleReviews(moduleId){
+  const data=await loadReviews(moduleId);
+  reviewsCache[moduleId]=data.reviews||[];
+  document.getElementById('avg-'+moduleId).textContent=data.avg||'—';
+  document.getElementById('avgcount-'+moduleId).textContent=data.count>0?data.count+' відгук(ів)':'';
+  const badge=document.getElementById('avg-badge-'+moduleId);
+  if(badge&&data.avg>0)badge.innerHTML='<span class="mod-avg-inline">★ '+data.avg+'</span>';
+  renderReviewsPage(moduleId,1);
+}
+
+function renderReviewsPage(moduleId,page){
+  const reviews=reviewsCache[moduleId]||[];
+  const totalPages=Math.ceil(reviews.length/REV_PER_PAGE)||1;
+  const start=(page-1)*REV_PER_PAGE;
+  const pageRevs=reviews.slice(start,start+REV_PER_PAGE);
+
+  const list=document.getElementById('rev-list-'+moduleId);list.innerHTML='';
+  pageRevs.forEach(rev=>{
+    const d=document.createElement('div');d.className='rev-item';
+    let starsHtml='<div class="rev-stars">';
+    for(let i=1;i<=5;i++)starsHtml+='<span class="star'+(i<=rev.rating?' active':'')+'">'+starsSVG()+'</span>';
+    starsHtml+='</div>';
+    d.innerHTML=
+      '<button class="rev-del" onclick="delReview(\''+moduleId+'\',\''+rev.id+'\')">🗑</button>'+
+      '<div class="rev-head"><span class="rev-author">'+(rev.author||'Учасниця')+'</span><span class="rev-date">'+new Date(rev.date).toLocaleDateString('uk')+'</span></div>'+
+      starsHtml+
+      '<div class="rev-text">'+(rev.comment||'')+'</div>';
+    list.appendChild(d);
+  });
+
+  // Pagination
+  if(totalPages>1){
+    const pag=document.createElement('div');pag.className='rev-pagination';
+    for(let i=1;i<=totalPages;i++){
+      const btn=document.createElement('button');
+      btn.textContent=i;
+      if(i===page)btn.className='active';
+      btn.onclick=()=>renderReviewsPage(moduleId,i);
+      pag.appendChild(btn);
+    }
+    list.appendChild(pag);
+  }
+}
+
+async function submitModReview(moduleId){
+  const starsEl=document.getElementById('rev-stars-'+moduleId);
+  const rating=parseInt(starsEl.dataset.rating)||0;
+  const comment=document.getElementById('rev-text-'+moduleId).value.trim();
+  const name=document.getElementById('rev-name-'+moduleId).value.trim();
+  if(!rating){alert('Постав оцінку (натисни на зірочку)');return}
+  if(!name){alert('Введи своє імʼя');return}
+  await submitReview(moduleId,rating,comment,name);
+  document.getElementById('rev-text-'+moduleId).value='';
+  starsEl.dataset.rating='0';
+  renderStars('rev-stars-'+moduleId,0,(r)=>{starsEl.dataset.rating=r;renderStars('rev-stars-'+moduleId,r,null)});
+  await loadModuleReviews(moduleId);
+}
+
+async function delReview(moduleId,reviewId){
+  await deleteReview(moduleId,reviewId);
+  await loadModuleReviews(moduleId);
+}
+
+// ===== INIT =====
+(function(){
+  const t=sessionStorage.getItem('bm_token');
+  const p=sessionStorage.getItem('bm_plan');
+  const e=sessionStorage.getItem('bm_email');
+  const dl=sessionStorage.getItem('bm_daysLeft');
+  const ea=sessionStorage.getItem('bm_expiresAt');
+  if(t&&p){
+    try{
+      const d=JSON.parse(atob(t.replace(/-/g,'+').replace(/_/g,'/')));
+      if(d.exp>Date.now()){
+        state.token=t;state.plan=p;state.email=e;
+        state.daysLeft=parseInt(dl)||0;state.expiresAt=ea;
+        loadProgress().then(showDashboard);return;
+      }
+    }catch{}
+  }
+  document.getElementById('loginScreen').style.display='flex';
+})();
+
+</script>
+</body>
+</html>

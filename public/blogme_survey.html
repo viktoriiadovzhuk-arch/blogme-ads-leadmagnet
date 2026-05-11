@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Блог.me · Глибинна анкета учасниці</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --noir: #1A1A1A;
+    --blanc: #F7F4F0;
+    --blush: #D4847A;
+    --sage: #8B9E7E;
+    --champ: #C9A96E;
+    --gray: #8C8580;
+    --cream: #EDE8E1;
+    --mauve: #6B4F5C;
+    --serif: 'Cormorant Garamond', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--blanc);
+    color: var(--noir);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.03;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* ─── HEADER ─── */
+  .header {
+    background: var(--noir);
+    color: var(--blanc);
+    padding: 64px 48px 56px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 320px; height: 320px;
+    background: var(--blush);
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 30%;
+    width: 200px; height: 200px;
+    background: var(--champ);
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.18;
+  }
+  .header-inner { position: relative; z-index: 2; max-width: 860px; margin: 0 auto; }
+
+  .header-eyebrow {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--champ);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .header-eyebrow::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--champ);
+  }
+
+  .header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+  .header h1 em { font-style: italic; color: var(--blush); font-weight: 300; }
+
+  .header-sub {
+    font-size: 15px;
+    line-height: 1.65;
+    color: rgba(247,244,240,0.7);
+    max-width: 540px;
+    font-weight: 300;
+    margin-bottom: 40px;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 36px;
+    flex-wrap: wrap;
+    padding-top: 28px;
+    border-top: 1px solid rgba(247,244,240,0.1);
+  }
+  .meta-item { font-size: 12px; }
+  .meta-item span {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 4px;
+  }
+
+  /* ─── INTRO STRIP ─── */
+  .intro-strip {
+    background: var(--cream);
+    padding: 28px 48px;
+    border-bottom: 1px solid rgba(139,133,128,0.15);
+  }
+  .intro-strip-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    display: flex;
+    gap: 48px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .intro-strip p {
+    font-size: 13px;
+    color: var(--gray);
+    line-height: 1.65;
+    flex: 1;
+    min-width: 240px;
+  }
+  .intro-strip p strong { color: var(--noir); font-weight: 500; }
+
+  /* ─── MAIN ─── */
+  .main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 48px 80px;
+  }
+
+  /* ─── QUESTION BLOCK ─── */
+  .q-block {
+    margin-top: 56px;
+    animation: fadeUp 0.7s ease-out both;
+  }
+  .q-block:nth-child(1) { animation-delay: 0.05s; }
+  .q-block:nth-child(2) { animation-delay: 0.1s; }
+  .q-block:nth-child(3) { animation-delay: 0.15s; }
+  .q-block:nth-child(4) { animation-delay: 0.2s; }
+  .q-block:nth-child(5) { animation-delay: 0.25s; }
+  .q-block:nth-child(6) { animation-delay: 0.3s; }
+  .q-block:nth-child(7) { animation-delay: 0.35s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  .q-num {
+    font-family: var(--serif);
+    font-size: 64px;
+    font-weight: 300;
+    color: var(--cream);
+    line-height: 0.9;
+    min-width: 56px;
+    flex-shrink: 0;
+    padding-top: 6px;
+  }
+
+  .q-meta { flex: 1; }
+
+  .q-tag {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .q-tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    display: inline-block;
+  }
+  .tag-pain .q-tag { color: var(--mauve); }
+  .tag-pain .q-tag::before { background: var(--mauve); }
+  .tag-motive .q-tag { color: var(--blush); }
+  .tag-motive .q-tag::before { background: var(--blush); }
+  .tag-decision .q-tag { color: var(--champ); }
+  .tag-decision .q-tag::before { background: var(--champ); }
+  .tag-price .q-tag { color: var(--sage); }
+  .tag-price .q-tag::before { background: var(--sage); }
+  .tag-trigger .q-tag { color: var(--blush); }
+  .tag-trigger .q-tag::before { background: var(--blush); }
+  .tag-moment .q-tag { color: var(--champ); }
+  .tag-moment .q-tag::before { background: var(--champ); }
+  .tag-result .q-tag { color: var(--sage); }
+  .tag-result .q-tag::before { background: var(--sage); }
+
+  .q-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 1.25;
+    color: var(--noir);
+    margin-bottom: 4px;
+  }
+
+  .q-intent {
+    font-size: 11px;
+    color: var(--gray);
+    letter-spacing: 0.05em;
+    font-style: italic;
+  }
+
+  /* Question body */
+  .q-body {
+    padding: 24px 28px;
+    border-left: 2px solid var(--cream);
+    margin-left: 80px;
+    transition: border-left-color 0.3s;
+  }
+  .q-block:hover .q-body { border-left-color: var(--blush); }
+
+  .q-text {
+    font-size: 17px;
+    line-height: 1.7;
+    font-weight: 300;
+    color: var(--noir);
+    margin-bottom: 20px;
+  }
+  .q-text strong {
+    font-weight: 600;
+    color: var(--blush);
+  }
+  .q-text em {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 19px;
+  }
+
+  /* Sub-prompts */
+  .sub-prompts {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .sub-prompts li {
+    font-size: 13px;
+    color: var(--gray);
+    padding-left: 20px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .sub-prompts li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--blush);
+    font-size: 12px;
+    font-family: var(--serif);
+    font-style: italic;
+  }
+
+  /* Answer area */
+  .answer-area {
+    margin-top: 20px;
+    border: 1px solid var(--cream);
+    background: rgba(255,255,255,0.5);
+    position: relative;
+    transition: border-color 0.25s;
+  }
+  .answer-area:focus-within {
+    border-color: var(--blush);
+    background: #fff;
+  }
+  .answer-area textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 18px 20px 36px;
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: var(--noir);
+    border: none;
+    background: transparent;
+    resize: none;
+    outline: none;
+    display: block;
+  }
+  .answer-area textarea::placeholder {
+    color: rgba(140,133,128,0.5);
+    font-style: italic;
+  }
+  .answer-counter {
+    position: absolute;
+    bottom: 10px; right: 14px;
+    font-size: 10px;
+    color: rgba(140,133,128,0.4);
+    letter-spacing: 0.1em;
+    pointer-events: none;
+  }
+
+  /* Divider */
+  .q-divider {
+    height: 1px;
+    background: var(--cream);
+    margin: 56px 0 0;
+  }
+
+  /* ─── FOCUS QUOTE (strategic note) ─── */
+  .focus-note {
+    margin: 48px 0 0 80px;
+    padding: 22px 24px;
+    background: var(--cream);
+    font-size: 13px;
+    color: var(--gray);
+    font-style: italic;
+    line-height: 1.6;
+    position: relative;
+  }
+  .focus-note::before {
+    content: '⬥';
+    color: var(--champ);
+    font-style: normal;
+    margin-right: 10px;
+    font-size: 11px;
+  }
+
+  /* ─── SUBMIT AREA ─── */
+  .submit-section {
+    margin: 72px 0 0;
+    padding: 48px;
+    background: var(--noir);
+    color: var(--blanc);
+    position: relative;
+    overflow: hidden;
+  }
+  .submit-section::before {
+    content: '';
+    position: absolute;
+    bottom: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: var(--blush);
+    border-radius: 50%;
+    filter: blur(50px);
+    opacity: 0.25;
+  }
+  .submit-inner { position: relative; z-index: 2; }
+  .submit-section h3 {
+    font-family: var(--serif);
+    font-size: 32px;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 12px;
+  }
+  .submit-section p {
+    font-size: 14px;
+    color: rgba(247,244,240,0.6);
+    margin-bottom: 32px;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--blush);
+    color: var(--blanc);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 16px 36px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+  }
+  .btn-submit:hover { background: #c4726a; transform: translateY(-1px); }
+  .btn-submit:active { transform: translateY(0); }
+  .btn-submit-note {
+    margin-top: 16px;
+    font-size: 11px;
+    color: rgba(140,133,128,0.7);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--noir);
+    padding: 24px 48px;
+    border-top: 1px solid var(--mauve);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-brand {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--blanc);
+  }
+  .footer-brand em { color: var(--blush); font-style: italic; }
+  .footer-meta {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  /* ─── PROGRESS ─── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--cream);
+    z-index: 200;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blush), var(--champ));
+    width: 0%;
+    transition: width 0.2s ease;
+  }
+
+  /* ─── SUCCESS ─── */
+  .success-screen {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--noir);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 48px;
+  }
+  .success-screen.visible { display: flex; }
+  .success-inner { color: var(--blanc); max-width: 500px; }
+  .success-icon {
+    font-family: var(--serif);
+    font-size: 80px;
+    color: var(--blush);
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+  .success-inner h2 {
+    font-family: var(--serif);
+    font-size: 40px;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 16px;
+  }
+  .success-inner p {
+    font-size: 15px;
+    color: rgba(247,244,240,0.6);
+    line-height: 1.65;
+  }
+
+  @media (max-width: 720px) {
+    .header { padding: 48px 20px 40px; }
+    .intro-strip { padding: 20px; }
+    .main { padding: 0 20px 60px; }
+    .q-body { margin-left: 0; }
+    .q-num { font-size: 44px; }
+    .submit-section { padding: 32px 24px; }
+    footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-eyebrow">Блог.me · Внутрішній документ</div>
+    <h1>Нам важливо <em>зрозуміти тебе</em> краще</h1>
+    <p class="header-sub">
+      Це не тест і не звіт. Це розмова — чесна і без правильних відповідей. Твої слова допоможуть нам зробити програму кращою і зрозуміти, що справді важливо для людей, які приходять до Блог.me.
+    </p>
+    <div class="header-meta">
+      <div class="meta-item"><span>Для кого</span>Учасниці Блог.me</div>
+      <div class="meta-item"><span>Питань</span>6 відкритих</div>
+      <div class="meta-item"><span>Час</span>~10–15 хвилин</div>
+      <div class="meta-item"><span>Конфіденційність</span>Лише для внутрішнього аналізу</div>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO STRIP -->
+<div class="intro-strip">
+  <div class="intro-strip-inner">
+    <p><strong>Як відповідати:</strong> пиши так, як думаєш. Не оформлено, не красиво — а чесно. Саме «сирі» думки і є найціннішими. Немає правильних або неправильних відповідей.</p>
+    <p><strong>Навіщо це нам:</strong> ми хочемо розуміти не лише «що» люди купують, а «чому» — і що відбувається всередині, коли людина вирішує змінити щось у своєму блозі.</p>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<div class="main">
+<form id="surveyForm">
+
+  <!-- Q1 · PAIN -->
+  <div class="q-block tag-pain">
+    <div class="q-divider" style="margin-top:0;margin-bottom:48px;opacity:0"></div>
+    <div class="q-header">
+      <div class="q-num">01</div>
+      <div class="q-meta">
+        <div class="q-tag">Глибинний біль</div>
+        <div class="q-title">Що саме не давало тобі спокою до того, як ти потрапила в Блог.me?</div>
+        <div class="q-intent">Хочемо зрозуміти справжній «біль до» — не симптом, а причину</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">
+        Не «я хотіла більше підписників». А що ти <strong>відчувала</strong> — всередині, у повсякденних ситуаціях. Коли бачила чужий блог. Коли думала про свій. Коли уникала або відкладала.
+      </p>
+      <ul class="sub-prompts">
+        <li>Яка думка чи ситуація повторювалась найчастіше?</li>
+        <li>Чи був момент, коли стало особливо боляче або прикро?</li>
+        <li>Що ти казала собі, коли нічого не виходило?</li>
+      </ul>
+      <div class="answer-area">
+        <textarea name="q1" placeholder="Пиши вільно, як думаєш…" rows="6" oninput="updateCounter(this); updateProgress()"></textarea>
+        <div class="answer-counter" id="c1">0 слів</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-divider"></div>
+
+  <!-- Q2 · MOTIVE -->
+  <div class="q-block tag-motive">
+    <div class="q-header">
+      <div class="q-num">02</div>
+      <div class="q-meta">
+        <div class="q-tag">Справжня мотивація</div>
+        <div class="q-title">Чого ти насправді хочеш від блогу — якщо дивитись глибше за «гроші і підписників»?</div>
+        <div class="q-intent">Шукаємо справжній «образ результату» — не функціональний, а емоційний</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">
+        Іноді за бажанням «заробляти в блозі» стоїть щось більше — свобода, визнання, голос, незалежність, можливість обирати. <em>Що стоїть за цим у тебе?</em>
+      </p>
+      <ul class="sub-prompts">
+        <li>Як виглядає твоє життя, коли блог працює так, як ти хочеш?</li>
+        <li>Що зміниться — не в блозі, а в тобі і твоєму житті?</li>
+        <li>Це про гроші, визнання, свободу, творчість — чи про щось інше?</li>
+      </ul>
+      <div class="answer-area">
+        <textarea name="q2" placeholder="Пиши вільно, як думаєш…" rows="6" oninput="updateCounter(this); updateProgress()"></textarea>
+        <div class="answer-counter" id="c2">0 слів</div>
+      </div>
+    </div>
+    <div class="focus-note">
+      Немає «дрібних» або «неправильних» відповідей. Якщо хочеться написати «просто хочу не залежати від чоловіка» або «хочу щоб мама нарешті пишалась» — пиши це. Саме такі речі нам важливі.
+    </div>
+  </div>
+
+  <div class="q-divider"></div>
+
+  <!-- Q3 · DECISION PROCESS -->
+  <div class="q-block tag-decision">
+    <div class="q-header">
+      <div class="q-num">03</div>
+      <div class="q-meta">
+        <div class="q-tag">Процес прийняття рішення</div>
+        <div class="q-title">Як ти приймала рішення про покупку — розкажи весь шлях від першого дотику до оплати?</div>
+        <div class="q-intent">Розуміємо customer journey: скільки часу, що переглядала, як думала</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">
+        Нас цікавить не просто «я вирішила і купила». А весь маршрут — <strong>де ти вперше побачила Блог.me</strong>, скільки думала, що робила між першим знайомством і оплатою.
+      </p>
+      <ul class="sub-prompts">
+        <li>Де і як ти вперше дізналась про програму?</li>
+        <li>Скільки часу пройшло від першого знайомства до покупки?</li>
+        <li>Що ти робила в цей час — гуглила, дивилась відео, питала подруг, порівнювала?</li>
+        <li>Чи були альтернативи, які ти розглядала?</li>
+      </ul>
+      <div class="answer-area">
+        <textarea name="q3" placeholder="Пиши вільно, як думаєш…" rows="6" oninput="updateCounter(this); updateProgress()"></textarea>
+        <div class="answer-counter" id="c3">0 слів</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-divider"></div>
+
+  <!-- Q4 · PRICE + DOUBTS -->
+  <div class="q-block tag-price">
+    <div class="q-header">
+      <div class="q-num">04</div>
+      <div class="q-meta">
+        <div class="q-tag">Ціна · Сумніви · Страхи</div>
+        <div class="q-title">Чи здалась тобі ціна дорогою — і що взагалі відбувалось у тебе всередині перед покупкою?</div>
+        <div class="q-intent">Розуміємо ставлення до ціни і які заперечення були найсильнішими</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">
+        Ми хочемо зрозуміти <strong>справжню картину</strong> — чи була ціна питанням, чи ні. Чи сумнівалась ти — і в чому саме. Це допомагає нам краще пояснювати цінність програми.
+      </p>
+      <ul class="sub-prompts">
+        <li>Ціна видалась дорогою, нормальною, навіть дешевою — як відчула?</li>
+        <li>Чи думала «а раптом не окупиться» — і як давала собі відповідь?</li>
+        <li>Які сумніви або страхи були найгучніші? («а раптом я кину», «а раптом не для мене»…)</li>
+        <li>Чи є щось, що змусило тебе затриматись перед тим, як натиснути «оплатити»?</li>
+      </ul>
+      <div class="answer-area">
+        <textarea name="q4" placeholder="Пиши чесно — саме це нам цінно…" rows="6" oninput="updateCounter(this); updateProgress()"></textarea>
+        <div class="answer-counter" id="c4">0 слів</div>
+      </div>
+    </div>
+    <div class="focus-note">
+      Якщо ціна справді здалась дорогою — це важливо почути. Якщо взагалі не думала про неї — теж. Будь-яка відповідь правдива, і саме вона нам потрібна.
+    </div>
+  </div>
+
+  <div class="q-divider"></div>
+
+  <!-- Q5 · DECISIVE TRIGGER -->
+  <div class="q-block tag-trigger">
+    <div class="q-header">
+      <div class="q-num">05</div>
+      <div class="q-meta">
+        <div class="q-tag">Вирішальний тригер</div>
+        <div class="q-title">Що стало «останньою краплею» — після чого ти сказала собі «все, беру»?</div>
+        <div class="q-intent">Шукаємо точний момент конверсії: що саме переключило</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">
+        Іноді це одне слово у відео. Іноді — коментар під постом. Іноді — внутрішня думка, яка прийшла раптово. <em>Що це було у тебе?</em>
+      </p>
+      <ul class="sub-prompts">
+        <li>Чи був якийсь конкретний момент, фраза, пост, відео — що «клікнуло»?</li>
+        <li>Це рішення прийшло раптово або ти поступово переконувалась?</li>
+        <li>Що ти сказала собі всередині, коли вирішила?</li>
+      </ul>
+      <div class="answer-area">
+        <textarea name="q5" placeholder="Навіть якщо це звучить банально — пиши…" rows="6" oninput="updateCounter(this); updateProgress()"></textarea>
+        <div class="answer-counter" id="c5">0 слів</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="q-divider"></div>
+
+  <!-- Q6 · EXPECTATIONS -->
+  <div class="q-block tag-result">
+    <div class="q-header">
+      <div class="q-num">06</div>
+      <div class="q-meta">
+        <div class="q-tag">Очікування і мрія</div>
+        <div class="q-title">Що ти очікуєш отримати після програми — і яким буде успіх для тебе особисто?</div>
+        <div class="q-intent">Розуміємо, за яким критерієм людина оцінить результат</div>
+      </div>
+    </div>
+    <div class="q-body">
+      <p class="q-text">
+        Не «хочу 100К підписників» — а <strong>конкретно</strong>: що зміниться у твоєму відчутті себе, у рутині, у стосунках із блогом, у фінансах? Через що ти скажеш «це того варте»?
+      </p>
+      <ul class="sub-prompts">
+        <li>Що ти хочеш, щоб змінилось у першу чергу?</li>
+        <li>Через 3 місяці після курсу — як виглядає твій ідеальний результат?</li>
+        <li>Є щось, чого ти особливо боїшся не отримати?</li>
+      </ul>
+      <div class="answer-area">
+        <textarea name="q6" placeholder="Пиши конкретно — що для тебе буде справжньою перемогою…" rows="6" oninput="updateCounter(this); updateProgress()"></textarea>
+        <div class="answer-counter" id="c6">0 слів</div>
+      </div>
+    </div>
+    <div class="focus-note">
+      Ця відповідь — особливо цінна. Ми будемо повертатись до неї, щоб бачити, наскільки програма дає те, чого люди справді чекають.
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-section">
+    <div class="submit-inner">
+      <h3>Дякую, що відповіла чесно</h3>
+      <p>Твої відповіді прочитаємо уважно — без суджень, лише з бажанням зрозуміти. Це допоможе нам будувати програму, яка справді дає результат.</p>
+      <button type="submit" class="btn-submit">
+        <span>Надіслати відповіді</span>
+        <span>→</span>
+      </button>
+      <div class="btn-submit-note">Відповіді конфіденційні і використовуються лише для внутрішнього аналізу</div>
+    </div>
+  </div>
+
+</form>
+</div>
+
+<!-- SUCCESS -->
+<div class="success-screen" id="successScreen">
+  <div class="success-inner">
+    <div class="success-icon">✦</div>
+    <h2>Отримали. Дякуємо.</h2>
+    <p>Твої відповіді — це справжній внесок у розвиток програми. Ми прочитаємо кожне слово уважно.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Блог.<em>me</em></div>
+  <div class="footer-meta">Глибинна анкета учасниці · Внутрішній документ · 2025–2026</div>
+</footer>
+
+<script>
+  // Word counter
+  function updateCounter(textarea) {
+    const id = 'c' + textarea.name.replace('q','');
+    const words = textarea.value.trim() === '' ? 0 : textarea.value.trim().split(/\s+/).length;
+    const el = document.getElementById(id);
+    if (el) el.textContent = words + (words === 1 ? ' слово' : words < 5 ? ' слова' : ' слів');
+  }
+
+  // Progress bar based on filled fields
+  function updateProgress() {
+    const areas = document.querySelectorAll('textarea');
+    let filled = 0;
+    areas.forEach(t => { if (t.value.trim().split(/\s+/).length >= 5) filled++; });
+    const pct = Math.round((filled / areas.length) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+  }
+
+  // Submit
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycby_kQFLJE5U95KJ2ZTcM9n4OdgZn_tn7Iq90AjQ6pzlWeJfKhk0TnYCvLRwCZKmqPHykQ/exec';
+
+  document.getElementById('surveyForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const btn = document.querySelector('.btn-submit');
+    btn.innerHTML = '<span>Надсилаємо…</span>';
+    btn.disabled = true;
+
+    const params = new URLSearchParams();
+    document.querySelectorAll('textarea').forEach(t => {
+      params.append(t.name, t.value);
+    });
+
+    const url = SHEET_URL + '?' + params.toString();
+
+    fetch(url, { method: 'GET', mode: 'no-cors' })
+    .then(() => {
+      document.getElementById('successScreen').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    })
+    .catch(() => {
+      document.getElementById('successScreen').classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  // Auto-resize textareas
+  document.querySelectorAll('textarea').forEach(t => {
+    t.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
+  });
+</script>
+
+</body>
+</html>

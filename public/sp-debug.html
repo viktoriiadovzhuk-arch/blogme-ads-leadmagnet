@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>SendPulse · Діагностика</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:'DM Sans',sans-serif;background:#F7F4F0;color:#1A1A1A;
+  padding:40px 24px;line-height:1.6;
+}
+.wrap{max-width:780px;margin:0 auto}
+h1{font-size:28px;margin-bottom:8px;font-weight:600}
+.sub{color:#8C8580;margin-bottom:32px;font-size:14px}
+
+.box{background:#fff;border:1px solid #EDE8E1;padding:28px;margin-bottom:20px}
+label{
+  display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:#8C8580;font-weight:700;margin-bottom:8px;
+}
+input{
+  width:100%;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:13px;
+  background:#F7F4F0;border:1px solid rgba(140,133,128,0.3);
+  margin-bottom:16px;
+}
+input:focus{outline:none;border-color:#D4847A}
+
+button{
+  padding:14px 28px;background:#1A1A1A;color:#F7F4F0;
+  font-family:'DM Sans',sans-serif;font-weight:700;font-size:12px;
+  letter-spacing:.15em;text-transform:uppercase;
+  border:none;cursor:pointer;
+}
+button:hover{background:#D4847A}
+button:disabled{opacity:.5;cursor:wait}
+
+pre{
+  background:#1A1A1A;color:#C9A96E;
+  padding:24px;font-family:'JetBrains Mono',monospace;font-size:12px;
+  overflow-x:auto;white-space:pre-wrap;word-wrap:break-word;
+  margin-top:16px;line-height:1.5;
+  max-height:600px;overflow-y:auto;
+}
+.status{
+  display:inline-block;padding:4px 10px;font-size:11px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;margin-right:8px;
+}
+.status.ok{background:#8B9E7E;color:#fff}
+.status.fail{background:#6B4F5C;color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>SendPulse · Діагностика</h1>
+  <p class="sub">Перевіряє credentials, OAuth, доступ до книги 654867, додавання тестового email</p>
+
+  <div class="box">
+    <label>Admin Key</label>
+    <input type="password" id="adminKey" placeholder="••••••••" autocomplete="off">
+
+    <label>Тестовий email (можна свій)</label>
+    <input type="email" id="testEmail" placeholder="your@email.com">
+
+    <button id="runBtn" onclick="runDebug()">Запустити діагностику SP</button>
+
+    <pre id="output" style="display:none"></pre>
+  </div>
+
+  <div class="box">
+    <h2 style="font-size:18px;font-weight:600;margin-bottom:16px">Bookings</h2>
+    <p style="font-size:13px;color:#444;margin-bottom:16px">Покаже останні 50 броней з їх статусом + URL вебхука</p>
+
+    <button onclick="listBookings()">Показати останні броні</button>
+
+    <div style="margin-top:24px">
+      <label>🔍 Знайти бронь за email</label>
+      <input type="text" id="searchEmail" placeholder="email або частина email">
+      <button onclick="searchByEmail()">Знайти</button>
+    </div>
+
+    <div style="margin-top:24px">
+      <label>Або перевір конкретний invoice ID в Mono</label>
+      <input type="text" id="invoiceId" placeholder="інвойс ID з Mono">
+      <button onclick="checkMono()">Перевірити в Mono</button>
+    </div>
+
+    <div style="margin-top:24px">
+      <label>Або вручну позначити бронь як підтверджену (за токеном)</label>
+      <input type="text" id="bookingToken" placeholder="токен броні">
+      <button onclick="manualConfirm()">Вручну підтвердити</button>
+    </div>
+
+    <pre id="bookingOutput" style="display:none"></pre>
+  </div>
+
+  <div class="box" style="background:#EDE8E1">
+    <p style="font-size:13px;color:#444;line-height:1.6">
+      <strong>Що покаже діагностика:</strong><br>
+      ✓ STEP 1 — чи SP credentials є в Netlify env (ID/Secret)<br>
+      ✓ STEP 2 — чи проходить OAuth (якщо ні — credentials невірні)<br>
+      ✓ STEP 3 — чи додається тестовий email у книгу<br>
+      ✓ STEP 4 — чи бачиться книга 654867 в акаунті
+    </p>
+  </div>
+</div>
+
+<script>
+async function runDebug(){
+  const adminKey = document.getElementById('adminKey').value.trim();
+  const testEmail = document.getElementById('testEmail').value.trim();
+  const btn = document.getElementById('runBtn');
+  const out = document.getElementById('output');
+
+  if (!adminKey) { alert('Введи admin key'); return; }
+  if (!testEmail || !testEmail.includes('@')) { alert('Введи тестовий email'); return; }
+
+  btn.disabled = true;
+  btn.textContent = 'Перевіряю...';
+  out.style.display = 'block';
+  out.textContent = 'Виконую діагностику...';
+
+  try {
+    const resp = await fetch('/.netlify/functions/sp-debug', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminKey, testEmail })
+    });
+    const data = await resp.json();
+    out.textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    out.textContent = 'Помилка: ' + err.message;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Запустити діагностику SP';
+  }
+}
+
+async function callBookingDebug(action, params={}){
+  const adminKey = document.getElementById('adminKey').value.trim();
+  const out = document.getElementById('bookingOutput');
+
+  if (!adminKey) { alert('Введи admin key'); return; }
+
+  out.style.display = 'block';
+  out.textContent = 'Виконую...';
+
+  try {
+    const resp = await fetch('/.netlify/functions/booking-debug', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminKey, action, ...params })
+    });
+    const data = await resp.json();
+    out.textContent = JSON.stringify(data, null, 2);
+  } catch (err) {
+    out.textContent = 'Помилка: ' + err.message;
+  }
+}
+
+function listBookings(){ callBookingDebug('list'); }
+function searchByEmail(){
+  const email = document.getElementById('searchEmail').value.trim();
+  if (!email) { alert('Введи email'); return; }
+  callBookingDebug('searchEmail', { email });
+}
+function checkMono(){
+  const invoiceId = document.getElementById('invoiceId').value.trim();
+  if (!invoiceId) { alert('Введи invoice ID'); return; }
+  callBookingDebug('checkMono', { invoiceId });
+}
+function manualConfirm(){
+  const token = document.getElementById('bookingToken').value.trim();
+  if (!token) { alert('Введи токен броні'); return; }
+  if (!confirm('Вручну позначити бронь як підтверджену? Це виконає всю логіку (SendPulse тощо).')) return;
+  callBookingDebug('manualConfirm', { token });
+}
+</script>
+</body>
+</html>

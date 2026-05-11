@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>Адмін: одноразові промокоди</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noir:#1A1A1A;--blanc:#F7F4F0;--blush:#D4847A;--champagne:#C9A96E;
+  --warm-gray:#8C8580;--soft-cream:#EDE8E1;--sage:#8B9E7E;--deep-mauve:#6B4F5C;
+  --display:'Cormorant Garamond',serif;--body:'DM Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--blanc);color:var(--noir);min-height:100vh;padding:40px 24px}
+.wrap{max-width:880px;margin:0 auto}
+
+h1{font-family:var(--display);font-size:36px;font-weight:500;margin-bottom:8px}
+h1 em{color:var(--blush);font-style:italic}
+.subtitle{color:var(--warm-gray);font-size:14px;margin-bottom:36px}
+
+.section{
+  background:#fff;border:1px solid var(--soft-cream);
+  padding:28px 28px;margin-bottom:24px;
+}
+.section h2{
+  font-family:var(--display);font-size:24px;font-style:italic;font-weight:500;
+  margin-bottom:6px;
+}
+.section .desc{font-size:13px;color:var(--warm-gray);margin-bottom:18px;line-height:1.5}
+
+label{
+  display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--warm-gray);font-weight:700;margin-bottom:8px;
+}
+input[type="password"], textarea{
+  width:100%;padding:12px 14px;font-family:var(--mono);font-size:13px;
+  background:var(--blanc);border:1px solid rgba(140,133,128,0.3);
+  color:var(--noir);transition:all .3s;
+}
+input[type="password"]:focus, textarea:focus{outline:none;border-color:var(--blush)}
+textarea{min-height:240px;resize:vertical;line-height:1.5}
+
+.btn{
+  display:inline-block;padding:14px 28px;
+  background:var(--noir);color:var(--blanc);
+  font-family:var(--body);font-weight:700;font-size:12px;
+  letter-spacing:.15em;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all .3s;
+}
+.btn:hover{background:var(--blush)}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn.secondary{background:var(--warm-gray)}
+.btn.secondary:hover{background:var(--noir)}
+
+.result{
+  margin-top:18px;padding:16px 18px;font-size:13px;line-height:1.55;
+  display:none;
+}
+.result.show{display:block}
+.result.ok{background:rgba(139,158,126,.12);border-left:3px solid var(--sage)}
+.result.err{background:rgba(107,79,92,.08);border-left:3px solid var(--deep-mauve);color:var(--deep-mauve)}
+
+.stats{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;
+  margin-bottom:20px;
+}
+.stat{
+  background:var(--soft-cream);padding:18px 20px;
+}
+.stat .v{font-family:var(--display);font-size:32px;font-weight:600;color:var(--noir)}
+.stat .l{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm-gray);font-weight:700;margin-top:4px}
+
+.codes-table{
+  margin-top:18px;font-family:var(--mono);font-size:12px;
+  max-height:400px;overflow-y:auto;background:var(--blanc);
+  border:1px solid var(--soft-cream);
+}
+.codes-table table{width:100%;border-collapse:collapse}
+.codes-table th, .codes-table td{
+  padding:8px 12px;text-align:left;border-bottom:1px solid var(--soft-cream);
+  font-family:var(--mono);font-size:12px;
+}
+.codes-table th{
+  font-family:var(--body);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--warm-gray);background:var(--soft-cream);position:sticky;top:0;
+}
+.status-used{color:var(--deep-mauve);font-weight:600}
+.status-free{color:var(--sage);font-weight:600}
+
+.actions-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Адмін · <em>одноразові коди</em></h1>
+  <p class="subtitle">Імпорт і керування одноразовими промокодами на ціну 3 799 / 4 599 ₴</p>
+
+  <!-- AUTH -->
+  <div class="section">
+    <h2>Адмін-ключ</h2>
+    <p class="desc">Введи ADMIN_KEY (той самий, що в Netlify env)</p>
+    <input type="password" id="adminKey" placeholder="••••••••" autocomplete="off">
+  </div>
+
+  <!-- IMPORT -->
+  <div class="section">
+    <h2>Імпорт кодів</h2>
+    <p class="desc">Встав сюди список кодів (по рядку або через JSON-масив). Дублі автоматично пропустяться.</p>
+    <label>Коди</label>
+    <textarea id="codesInput" placeholder="LAST-XXXXX&#10;LAST-YYYYY&#10;..."></textarea>
+    <div class="actions-row">
+      <button class="btn" onclick="importCodes()">Імпортувати</button>
+    </div>
+    <div class="result" id="importResult"></div>
+  </div>
+
+  <!-- LIST -->
+  <div class="section">
+    <h2>Перегляд кодів</h2>
+    <p class="desc">Показує всі імпортовані коди і їх статус (вільний/використаний)</p>
+    <button class="btn secondary" onclick="loadList()">Оновити список</button>
+
+    <div id="statsBlock" style="display:none;margin-top:24px">
+      <div class="stats">
+        <div class="stat"><div class="v" id="totalVal">—</div><div class="l">Всього</div></div>
+        <div class="stat"><div class="v" id="freeVal">—</div><div class="l">Вільних</div></div>
+        <div class="stat"><div class="v" id="usedVal">—</div><div class="l">Використано</div></div>
+      </div>
+
+      <div class="codes-table">
+        <table>
+          <thead>
+            <tr><th>Код</th><th>Статус</th><th>Використано</th></tr>
+          </thead>
+          <tbody id="codesTbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="result" id="listResult"></div>
+  </div>
+</div>
+
+<script>
+async function importCodes(){
+  const adminKey = document.getElementById('adminKey').value.trim();
+  const raw = document.getElementById('codesInput').value.trim();
+  const result = document.getElementById('importResult');
+
+  if (!adminKey) { showResult(result, 'err', 'Введи admin key'); return; }
+  if (!raw) { showResult(result, 'err', 'Встав коди'); return; }
+
+  // Парс: або JSON, або по рядках
+  let codes = [];
+  try {
+    if (raw.startsWith('[')) {
+      codes = JSON.parse(raw);
+    } else {
+      codes = raw.split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    }
+  } catch (e) {
+    showResult(result, 'err', 'Не вдалось розпарсити коди (очікую JSON або рядки по одному коду)');
+    return;
+  }
+
+  if (!Array.isArray(codes) || codes.length === 0) {
+    showResult(result, 'err', 'Список кодів порожній');
+    return;
+  }
+
+  showResult(result, 'ok', 'Імпортую ' + codes.length + ' кодів...');
+
+  try {
+    const resp = await fetch('/.netlify/functions/admin-promos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'import', adminKey, codes })
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      showResult(result, 'err', data.error || 'Помилка');
+      return;
+    }
+    showResult(result, 'ok',
+      `✓ Готово. Додано: ${data.added}, пропущено (дублі): ${data.skipped}` +
+      (data.errors?.length ? `, помилок: ${data.errors.length}` : '')
+    );
+  } catch (e) {
+    showResult(result, 'err', 'Помилка зʼєднання: ' + e.message);
+  }
+}
+
+async function loadList(){
+  const adminKey = document.getElementById('adminKey').value.trim();
+  const result = document.getElementById('listResult');
+
+  if (!adminKey) { showResult(result, 'err', 'Введи admin key'); return; }
+
+  try {
+    const resp = await fetch('/.netlify/functions/admin-promos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: 'list', adminKey })
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      showResult(result, 'err', data.error || 'Помилка');
+      return;
+    }
+
+    document.getElementById('statsBlock').style.display = 'block';
+    document.getElementById('totalVal').textContent = data.total;
+    document.getElementById('freeVal').textContent = data.remaining;
+    document.getElementById('usedVal').textContent = data.used;
+
+    const tbody = document.getElementById('codesTbody');
+    tbody.innerHTML = data.codes.map(c => `
+      <tr>
+        <td>${c.code}</td>
+        <td class="${c.used ? 'status-used' : 'status-free'}">${c.used ? '● Використано' : '○ Вільний'}</td>
+        <td>${c.usedAt ? new Date(c.usedAt).toLocaleString('uk-UA') : '—'}</td>
+      </tr>
+    `).join('');
+
+    result.classList.remove('show');
+  } catch (e) {
+    showResult(result, 'err', 'Помилка зʼєднання: ' + e.message);
+  }
+}
+
+function showResult(el, type, msg){
+  el.classList.remove('ok','err');
+  el.classList.add(type, 'show');
+  el.textContent = msg;
+}
+</script>
+</body>
+</html>

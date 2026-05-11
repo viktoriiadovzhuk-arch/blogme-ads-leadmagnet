@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<link rel="icon" type="image/png" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<title>Промо-урок — Блог Мі</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noir:#1A1A1A;--blanc:#F7F4F0;--blush:#D4847A;--champagne:#C9A96E;
+  --warm-gray:#8C8580;--soft-cream:#EDE8E1;--deep-mauve:#6B4F5C;--sage:#8B9E7E;
+  --display:'Cormorant Garamond',serif;--body:'DM Sans',sans-serif;--mono:'JetBrains Mono',monospace;
+  --ease:cubic-bezier(.2,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.wrap{max-width:880px;margin:0 auto;padding:48px 24px}
+
+.brand{
+  font-family:var(--display);font-size:24px;font-weight:500;
+  text-align:center;color:var(--warm-gray);margin-bottom:48px;letter-spacing:.02em;
+}
+.brand em{font-style:italic;color:var(--blush)}
+
+/* ===== EMAIL GATE ===== */
+.gate{
+  max-width:520px;margin:0 auto;
+  text-align:center;padding:40px 0;
+  animation:rise .8s var(--ease) both;
+}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.gate h1{
+  font-family:var(--display);font-size:clamp(36px,5.5vw,52px);font-weight:400;line-height:1.1;
+  margin-bottom:20px;letter-spacing:-.01em;
+}
+.gate h1 em{font-style:italic;color:var(--blush)}
+.gate p{font-size:16px;line-height:1.65;color:#444;margin-bottom:32px}
+.gate p b{color:var(--noir);font-weight:500}
+
+.gate-form{
+  background:var(--soft-cream);padding:32px 28px;text-align:left;
+}
+.gate-form label{
+  display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--warm-gray);font-weight:700;margin-bottom:10px;
+}
+.gate-form input{
+  width:100%;padding:16px 18px;font-family:var(--body);font-size:15px;
+  background:var(--blanc);border:1px solid rgba(140,133,128,0.3);
+  color:var(--noir);transition:all .3s;
+}
+.gate-form input:focus{
+  outline:none;border-color:var(--blush);
+  box-shadow:0 0 0 3px rgba(212,132,122,.15);
+}
+.gate-form button{
+  display:block;width:100%;margin-top:16px;
+  padding:20px 28px;background:var(--blush);color:var(--blanc);
+  font-family:var(--body);font-weight:700;font-size:13px;
+  letter-spacing:.15em;text-transform:uppercase;
+  border:none;cursor:pointer;
+  transition:all .4s var(--ease);
+}
+.gate-form button:hover{background:var(--noir)}
+.gate-form button:disabled{opacity:.6;cursor:wait}
+
+.error-msg{
+  margin-top:14px;font-size:13px;color:var(--deep-mauve);
+  display:none;padding:10px 14px;
+  background:rgba(107,79,92,0.08);border-left:2px solid var(--deep-mauve);
+}
+.error-msg.show{display:block}
+
+/* ===== LESSON STATE ===== */
+.lesson{display:none;animation:rise .8s var(--ease) both}
+.lesson.show{display:block}
+
+.lesson h1{
+  font-family:var(--display);font-size:clamp(32px,5vw,48px);font-weight:400;
+  line-height:1.15;margin-bottom:14px;text-align:center;letter-spacing:-.01em;
+}
+.lesson h1 em{font-style:italic;color:var(--blush)}
+.lesson .lead{
+  font-size:16px;color:#444;text-align:center;
+  max-width:600px;margin:0 auto 36px;line-height:1.6;
+}
+
+/* Відео */
+.video-wrap{
+  position:relative;width:100%;aspect-ratio:16/9;
+  background:var(--noir);overflow:hidden;
+  margin-bottom:40px;
+  box-shadow:0 30px 60px -20px rgba(26,26,26,0.3);
+}
+.video-wrap iframe{
+  width:100%;height:100%;border:0;display:block;
+}
+
+/* Код блок */
+.code-block{
+  background:var(--noir);color:var(--blanc);
+  padding:40px 32px;text-align:center;
+  margin-bottom:32px;
+  position:relative;overflow:hidden;
+}
+.code-block::before{
+  content:'';position:absolute;top:0;left:0;width:100%;height:3px;
+  background:linear-gradient(90deg,var(--blush),var(--champagne),var(--blush));
+}
+.code-label{
+  font-size:11px;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--champagne);font-weight:700;margin-bottom:18px;
+}
+.code-value{
+  font-family:var(--mono);font-size:clamp(32px,7vw,48px);
+  font-weight:700;letter-spacing:.08em;color:var(--blanc);
+  margin-bottom:20px;
+}
+.code-info{
+  font-size:14px;color:var(--cream,#EDE8E1);opacity:.85;line-height:1.55;
+  max-width:480px;margin:0 auto 24px;
+}
+.code-info b{color:var(--champagne)}
+
+.copy-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:14px 32px;font-family:var(--body);font-weight:700;font-size:12px;
+  letter-spacing:.15em;text-transform:uppercase;
+  background:var(--blush);color:var(--blanc);border:none;cursor:pointer;
+  transition:all .3s;
+}
+.copy-btn:hover{background:var(--champagne);color:var(--noir)}
+.copy-btn.copied{background:var(--sage)}
+
+/* Таймер */
+.timer-block{
+  background:rgba(212,132,122,0.08);border-left:3px solid var(--blush);
+  padding:24px 28px;margin-bottom:32px;
+  display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center;
+}
+.timer-label{
+  font-family:var(--display);font-size:18px;font-style:italic;color:var(--noir);
+  flex-shrink:0;
+}
+.timer{
+  display:flex;gap:16px;font-family:var(--mono);
+}
+.timer-cell{text-align:center;min-width:54px}
+.timer-cell .v{
+  display:block;font-size:32px;font-weight:700;color:var(--blush);line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.timer-cell .l{
+  display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--warm-gray);margin-top:6px;font-family:var(--body);font-weight:600;
+}
+
+/* Прайси */
+.prices-info{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  margin-bottom:32px;
+}
+@media (max-width:520px){.prices-info{grid-template-columns:1fr}}
+.price-card{
+  background:var(--soft-cream);padding:22px 24px;
+}
+.price-card .pname{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--warm-gray);
+  font-weight:700;margin-bottom:8px;
+}
+.price-card .pval{
+  font-family:var(--display);font-size:32px;font-weight:600;color:var(--noir);
+}
+.price-card .pold{
+  font-family:var(--body);font-size:13px;color:var(--warm-gray);
+  text-decoration:line-through;margin-top:4px;
+}
+.price-card .psave{
+  display:inline-block;margin-top:4px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--blush);
+}
+
+/* CTA */
+.lesson-cta{
+  text-align:center;margin-bottom:36px;
+}
+.lesson-cta a{
+  display:inline-block;padding:22px 44px;
+  background:var(--blush);color:var(--blanc);
+  font-family:var(--body);font-weight:700;font-size:14px;
+  letter-spacing:.15em;text-transform:uppercase;text-decoration:none;
+  transition:all .4s var(--ease);
+  box-shadow:0 12px 30px -10px rgba(212,132,122,.5);
+}
+.lesson-cta a:hover{transform:translateY(-2px);box-shadow:0 20px 40px -12px rgba(212,132,122,.6)}
+
+/* Booking trigger під CTA */
+.booking-trigger{
+  margin-top:18px;
+  font-size:13px;color:#444;line-height:1.55;
+  max-width:480px;margin-left:auto;margin-right:auto;
+  padding:14px 22px;
+  background:rgba(201,169,110,0.1);
+  border-left:3px solid var(--champagne);
+  text-align:left;
+}
+.booking-trigger b{color:var(--noir);font-weight:600}
+
+/* ===== ВІДГУКИ СЛАЙДЕР ===== */
+.feedback-section{
+  margin:64px 0 56px;
+  text-align:center;
+}
+.feedback-eyebrow{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--blush);font-weight:700;margin-bottom:14px;
+}
+.feedback-title{
+  font-family:var(--display);font-size:clamp(28px,4vw,40px);
+  font-weight:400;line-height:1.15;margin-bottom:36px;
+}
+.feedback-title em{font-style:italic;color:var(--blush)}
+
+.feedback-slider{
+  position:relative;
+  max-width:520px;
+  margin:0 auto;
+  overflow:hidden;
+  background:var(--soft-cream);
+  padding:12px;
+}
+.feedback-track{
+  display:flex;
+  transition:transform .5s var(--ease);
+  will-change:transform;
+}
+.feedback-card{
+  flex:0 0 100%;
+  display:flex;align-items:center;justify-content:center;
+  background:#FFFFFF;
+  padding:8px;
+}
+.feedback-card img{
+  width:100%;height:auto;display:block;
+  max-height:340px;object-fit:contain;
+}
+
+.slider-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;
+  background:var(--noir);color:var(--blanc);
+  border:none;cursor:pointer;
+  font-size:24px;line-height:1;
+  display:flex;align-items:center;justify-content:center;
+  z-index:5;
+  transition:background .3s, transform .3s;
+}
+.slider-arrow:hover{background:var(--blush)}
+.slider-arrow.prev{left:8px}
+.slider-arrow.next{right:8px}
+.slider-arrow:disabled{opacity:.3;cursor:not-allowed}
+
+.slider-dots{
+  display:flex;justify-content:center;gap:8px;
+  margin-top:16px;
+}
+.slider-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(140,133,128,.3);
+  cursor:pointer;border:none;padding:0;
+  transition:background .3s, transform .3s;
+}
+.slider-dot.active{background:var(--blush);transform:scale(1.3)}
+
+/* ===== TG SECTION ===== */
+.tg-section{
+  margin:48px 0 56px;
+  text-align:center;
+  padding:32px 16px;
+  background:var(--soft-cream);
+}
+.tg-eyebrow{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--champagne);font-weight:700;margin-bottom:14px;
+}
+.tg-title{
+  font-family:var(--display);font-size:clamp(26px,3.6vw,36px);
+  font-weight:400;line-height:1.15;margin-bottom:8px;
+}
+.tg-title em{font-style:italic;color:var(--blush)}
+.tg-subtitle{
+  font-size:14px;color:#444;line-height:1.55;margin-bottom:24px;
+  max-width:440px;margin-left:auto;margin-right:auto;
+}
+.tg-screenshot{
+  max-width:480px;margin:0 auto;
+  background:#FFFFFF;padding:14px;
+  box-shadow:0 14px 36px -16px rgba(26,26,26,0.18);
+}
+.tg-screenshot img{width:100%;height:auto;display:block}
+
+@media (max-width:520px){
+  .feedback-card img{max-height:280px}
+  .slider-arrow{width:36px;height:36px;font-size:20px}
+}
+
+/* Expired/used state */
+.expired-note{
+  background:rgba(107,79,92,0.08);border-left:3px solid var(--deep-mauve);
+  padding:18px 22px;margin-bottom:24px;
+  font-family:var(--display);font-style:italic;font-size:17px;
+  color:var(--deep-mauve);line-height:1.5;
+}
+.expired-note b{font-style:normal;color:var(--noir);font-weight:600}
+
+.support{
+  margin-top:48px;padding-top:32px;border-top:1px solid var(--soft-cream);
+  text-align:center;font-size:14px;color:var(--warm-gray);line-height:1.6;
+}
+.support a{color:var(--blush);text-decoration:none;font-weight:500;border-bottom:1px solid var(--blush)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">Блог <em>Мі</em></div>
+
+  <!-- ===== EMAIL GATE ===== -->
+  <section class="gate" id="gateBlock">
+    <h1>Дивись <em>безкоштовний</em> урок</h1>
+    <p>
+      Введи email — і отримай доступ до уроку та <b>персональний промокод</b>
+      на спеціальну ціну, яка діятиме <b>24 години</b>.
+    </p>
+    <div class="gate-form">
+      <label>Твій email</label>
+      <input type="email" id="gateEmail" placeholder="your@email.com" autocomplete="email">
+      <button id="gateBtn" onclick="submitGate()">Дивитись урок →</button>
+      <div class="error-msg" id="gateError"></div>
+    </div>
+  </section>
+
+  <!-- ===== LESSON ===== -->
+  <section class="lesson" id="lessonBlock">
+    <h1>Твій <em>урок</em></h1>
+    <p class="lead">Дивись до кінця — нижче твій персональний промокод і таймер на знижку.</p>
+
+    <!-- ВІДЕО -->
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/N5uEO1v6Qf4?rel=0&modestbranding=1"
+        title="Промо-урок Блог Мі"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+
+    <!-- ПРОМОКОД -->
+    <div class="code-block">
+      <div class="code-label">Твій унікальний промокод</div>
+      <div class="code-value" id="codeValue">—</div>
+      <div class="code-info" id="codeInfo">
+        Введи цей код у формі оплати — і ціна стане <b>3 799 ₴ для Start</b> або <b>4 599 ₴ для VIP</b>.
+      </div>
+      <button class="copy-btn" id="copyBtn" onclick="copyCode()">
+        <span id="copyText">Скопіювати код</span>
+      </button>
+    </div>
+
+    <!-- ТАЙМЕР -->
+    <div class="timer-block" id="timerBlock">
+      <div class="timer-label">До закінчення дії промокоду:</div>
+      <div class="timer">
+        <div class="timer-cell"><span class="v" id="th">—</span><span class="l">годин</span></div>
+        <div class="timer-cell"><span class="v" id="tm">—</span><span class="l">хвилин</span></div>
+        <div class="timer-cell"><span class="v" id="ts">—</span><span class="l">секунд</span></div>
+      </div>
+    </div>
+
+    <!-- EXPIRED / USED заглушка -->
+    <div class="expired-note" id="expiredNote" style="display:none">
+      <b id="expiredTitle">Час вийшов</b>
+      <span id="expiredText">— твій промокод був дійсний 24 години.</span>
+    </div>
+
+    <!-- ПРАЙСИ -->
+    <div class="prices-info">
+      <div class="price-card">
+        <div class="pname">Тариф Start</div>
+        <div class="pval">3 799 ₴</div>
+        <div class="pold">замість 5 999 ₴</div>
+        <div class="psave">−2 200 ₴ за кодом</div>
+      </div>
+      <div class="price-card">
+        <div class="pname">Тариф VIP</div>
+        <div class="pval">4 599 ₴</div>
+        <div class="pold">замість 6 999 ₴</div>
+        <div class="psave">−2 400 ₴ за кодом</div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="lesson-cta">
+      <a href="/#pricing">Забронювати місце зі знижкою →</a>
+      <p class="booking-trigger">
+        🔖 <b>Бронь 1 000 ₴</b> — зафіксуй поточну ціну. Решту доплачуєш до старту 18 травня
+      </p>
+    </div>
+
+    <p style="text-align:center;font-size:13px;color:var(--warm-gray);line-height:1.55;margin-bottom:48px">
+      На сторінці курсу обери тариф → у формі оплати клацни <b style="color:var(--noir)">«У мене є промокод»</b><br>
+      і встав код. Ціна оновиться автоматично.
+    </p>
+
+    <!-- ВІДГУКИ ПРО ВІДЕО (слайдер) -->
+    <div class="feedback-section">
+      <div class="feedback-slider" id="feedbackSlider">
+        <div class="feedback-track" id="feedbackTrack">
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-1.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-2.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-3.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-4.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-5.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-6.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-7.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-8.jpeg" alt="Відгук" loading="lazy"></div>
+          <div class="feedback-card"><img src="/images/lesson-feedback/feedback-9.jpeg" alt="Відгук" loading="lazy"></div>
+        </div>
+        <button class="slider-arrow prev" onclick="slideFeedback(-1)" aria-label="Назад">‹</button>
+        <button class="slider-arrow next" onclick="slideFeedback(1)" aria-label="Далі">›</button>
+      </div>
+      <div class="slider-dots" id="sliderDots"></div>
+    </div>
+
+    <!-- TG ЧАТ -->
+    <div class="tg-section">
+      <h2 class="tg-title">З <em>чату учасниць</em></h2>
+      <div class="tg-screenshot">
+        <img src="/images/lesson-feedback/tg-chat.jpeg" alt="Повідомлення з TG-чату учасниць" loading="lazy">
+      </div>
+    </div>
+
+    <div class="support">
+      Виникли питання? Пиши <a href="https://t.me/victoria_dovzhuk" target="_blank">@victoria_dovzhuk</a>
+    </div>
+  </section>
+</div>
+
+<script>
+const STORAGE_KEY = 'blogmi_lesson_email';
+let savedCode = '';
+let expiresAt = null;
+let timerInterval = null;
+
+// ===== GATE =====
+async function submitGate(){
+  const email = document.getElementById('gateEmail').value.trim();
+  const btn = document.getElementById('gateBtn');
+  const err = document.getElementById('gateError');
+
+  err.classList.remove('show');
+
+  if (!email || !email.includes('@')) {
+    err.textContent = 'Введи коректний email';
+    err.classList.add('show');
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Завантажую...';
+
+  try {
+    const resp = await fetch('/.netlify/functions/register-lesson', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const data = await resp.json();
+
+    if (!resp.ok || !data.code) {
+      err.textContent = data.error || 'Не вдалося згенерувати код';
+      err.classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'Дивитись урок →';
+      return;
+    }
+
+    // Зберігаємо в localStorage
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({
+        email,
+        code: data.code,
+        expiresAt: data.expiresAt,
+        expired: !!data.expired,
+        used: !!data.used
+      }));
+    } catch {}
+
+    showLesson(data);
+
+  } catch (e) {
+    err.textContent = 'Помилка зʼєднання. Спробуй ще раз.';
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Дивитись урок →';
+  }
+}
+
+// ===== ПОКАЗ УРОКУ =====
+function showLesson(data){
+  savedCode = data.code;
+  expiresAt = data.expiresAt;
+
+  document.getElementById('codeValue').textContent = data.code;
+
+  document.getElementById('gateBlock').style.display = 'none';
+  document.getElementById('lessonBlock').classList.add('show');
+
+  // Якщо код протермінований чи використаний — показуємо примітку, ховаємо таймер
+  if (data.expired || data.used) {
+    document.getElementById('timerBlock').style.display = 'none';
+    document.getElementById('expiredNote').style.display = 'block';
+    if (data.used) {
+      document.getElementById('expiredTitle').textContent = 'Промокод уже використано';
+      document.getElementById('expiredText').textContent = ' — ти вже скористалась ним. Якщо щось не так — напиши @victoria_dovzhuk.';
+    } else {
+      document.getElementById('expiredTitle').textContent = 'Час вийшов';
+      document.getElementById('expiredText').textContent = ' — промокод був дійсний 24 години. Напиши @victoria_dovzhuk, вона допоможе.';
+    }
+    // Знижка не показується як активна
+    document.getElementById('codeInfo').innerHTML = 'На жаль, термін дії цього промокоду минув або він вже використаний.';
+    return;
+  }
+
+  startTimer();
+}
+
+// ===== ТАЙМЕР =====
+function startTimer(){
+  if (timerInterval) clearInterval(timerInterval);
+  updateTimer();
+  timerInterval = setInterval(updateTimer, 1000);
+}
+
+function updateTimer(){
+  const remaining = new Date(expiresAt).getTime() - Date.now();
+  if (remaining <= 0) {
+    clearInterval(timerInterval);
+    document.getElementById('th').textContent = '00';
+    document.getElementById('tm').textContent = '00';
+    document.getElementById('ts').textContent = '00';
+    document.getElementById('timerBlock').style.display = 'none';
+    document.getElementById('expiredNote').style.display = 'block';
+    document.getElementById('expiredTitle').textContent = 'Час вийшов';
+    document.getElementById('expiredText').textContent = ' — твій промокод щойно протермінувався.';
+    document.getElementById('codeInfo').innerHTML = 'На жаль, термін дії цього промокоду минув.';
+    return;
+  }
+  const totalSec = Math.floor(remaining / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  document.getElementById('th').textContent = String(h).padStart(2,'0');
+  document.getElementById('tm').textContent = String(m).padStart(2,'0');
+  document.getElementById('ts').textContent = String(s).padStart(2,'0');
+}
+
+// ===== COPY =====
+function copyCode(){
+  if (!savedCode) return;
+  navigator.clipboard.writeText(savedCode).then(() => {
+    const btn = document.getElementById('copyBtn');
+    const txt = document.getElementById('copyText');
+    btn.classList.add('copied');
+    txt.textContent = '✓ Скопійовано';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      txt.textContent = 'Скопіювати код';
+    }, 1800);
+  });
+}
+
+// ===== ВІДНОВЛЕННЯ З LOCALSTORAGE =====
+async function init(){
+  let stored = null;
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) stored = JSON.parse(raw);
+  } catch {}
+
+  if (!stored || !stored.email) return;
+
+  // Перепитуємо бекенд щоб отримати актуальний стан коду (раптом використано)
+  try {
+    const resp = await fetch('/.netlify/functions/register-lesson', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: stored.email })
+    });
+    const data = await resp.json();
+    if (data.code) {
+      // Оновлюємо storage
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          email: stored.email,
+          code: data.code,
+          expiresAt: data.expiresAt,
+          expired: !!data.expired,
+          used: !!data.used
+        }));
+      } catch {}
+      showLesson(data);
+    }
+  } catch {}
+}
+
+// Enter — submit
+document.getElementById('gateEmail').addEventListener('keydown', e => {
+  if (e.key === 'Enter') submitGate();
+});
+
+// ===== ВІДГУКИ СЛАЙДЕР =====
+let feedbackIndex = 0;
+const feedbackTotal = 9;
+
+function renderDots(){
+  const dots = document.getElementById('sliderDots');
+  if (!dots) return;
+  let html = '';
+  for (let i = 0; i < feedbackTotal; i++) {
+    html += `<button class="slider-dot${i === feedbackIndex ? ' active' : ''}" onclick="goToFeedback(${i})" aria-label="Слайд ${i+1}"></button>`;
+  }
+  dots.innerHTML = html;
+}
+
+function updateFeedback(){
+  const track = document.getElementById('feedbackTrack');
+  if (!track) return;
+  track.style.transform = `translateX(-${feedbackIndex * 100}%)`;
+  renderDots();
+}
+
+function slideFeedback(direction){
+  feedbackIndex = (feedbackIndex + direction + feedbackTotal) % feedbackTotal;
+  updateFeedback();
+}
+
+function goToFeedback(index){
+  feedbackIndex = index;
+  updateFeedback();
+}
+
+// Запуск рендеру dots при завантаженні
+renderDots();
+
+// Свайпи на mobile
+(function(){
+  const slider = document.getElementById('feedbackSlider');
+  if (!slider) return;
+  let startX = 0;
+  let dx = 0;
+  slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; dx = 0; });
+  slider.addEventListener('touchmove', e => { dx = e.touches[0].clientX - startX; });
+  slider.addEventListener('touchend', () => {
+    if (Math.abs(dx) > 40) slideFeedback(dx < 0 ? 1 : -1);
+  });
+})();
+
+init();
+</script>
+</body>
+</html>
