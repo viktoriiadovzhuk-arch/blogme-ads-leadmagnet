@@ -7,6 +7,23 @@
 <link rel="icon" type="image/png" href="/icon-192.png">
 <link rel="apple-touch-icon" href="/icon-192.png">
 <title>Промо-урок — Блог Мі</title>
+ 
+<!-- ============ Meta Pixel (промо-урок) ============ -->
+<script>
+!function(f,b,e,v,n,t,s){
+  if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];
+  t=b.createElement(e);t.async=!0;t.src=v;
+  s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s);
+}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','4376682672588028');
+fbq('track','PageView');
+</script>
+<noscript>
+  <img height="1" width="1" style="display:none" alt=""
+       src="https://www.facebook.com/tr?id=4376682672588028&ev=PageView&noscript=1" />
+</noscript>
+ 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -19,15 +36,15 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-height:1.6;-webkit-font-smoothing:antialiased}
-
+ 
 .wrap{max-width:880px;margin:0 auto;padding:48px 24px}
-
+ 
 .brand{
   font-family:var(--display);font-size:24px;font-weight:500;
   text-align:center;color:var(--warm-gray);margin-bottom:48px;letter-spacing:.02em;
 }
 .brand em{font-style:italic;color:var(--blush)}
-
+ 
 /* ===== EMAIL GATE ===== */
 .gate{
   max-width:520px;margin:0 auto;
@@ -42,7 +59,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
 .gate h1 em{font-style:italic;color:var(--blush)}
 .gate p{font-size:16px;line-height:1.65;color:#444;margin-bottom:32px}
 .gate p b{color:var(--noir);font-weight:500}
-
+ 
 .gate-form{
   background:var(--soft-cream);padding:32px 28px;text-align:left;
 }
@@ -69,18 +86,18 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
 }
 .gate-form button:hover{background:var(--noir)}
 .gate-form button:disabled{opacity:.6;cursor:wait}
-
+ 
 .error-msg{
   margin-top:14px;font-size:13px;color:var(--deep-mauve);
   display:none;padding:10px 14px;
   background:rgba(107,79,92,0.08);border-left:2px solid var(--deep-mauve);
 }
 .error-msg.show{display:block}
-
+ 
 /* ===== LESSON STATE ===== */
 .lesson{display:none;animation:rise .8s var(--ease) both}
 .lesson.show{display:block}
-
+ 
 .lesson h1{
   font-family:var(--display);font-size:clamp(32px,5vw,48px);font-weight:400;
   line-height:1.15;margin-bottom:14px;text-align:center;letter-spacing:-.01em;
@@ -90,7 +107,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   font-size:16px;color:#444;text-align:center;
   max-width:600px;margin:0 auto 36px;line-height:1.6;
 }
-
+ 
 /* Відео */
 .video-wrap{
   position:relative;width:100%;aspect-ratio:16/9;
@@ -101,7 +118,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
 .video-wrap iframe{
   width:100%;height:100%;border:0;display:block;
 }
-
+ 
 /* Код блок */
 .code-block{
   background:var(--noir);color:var(--blanc);
@@ -127,7 +144,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   max-width:480px;margin:0 auto 24px;
 }
 .code-info b{color:var(--champagne)}
-
+ 
 .copy-btn{
   display:inline-flex;align-items:center;gap:8px;
   padding:14px 32px;font-family:var(--body);font-weight:700;font-size:12px;
@@ -137,7 +154,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
 }
 .copy-btn:hover{background:var(--champagne);color:var(--noir)}
 .copy-btn.copied{background:var(--sage)}
-
+ 
 /* Таймер */
 .timer-block{
   background:rgba(212,132,122,0.08);border-left:3px solid var(--blush);
@@ -160,7 +177,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--warm-gray);margin-top:6px;font-family:var(--body);font-weight:600;
 }
-
+ 
 /* Прайси */
 .prices-info{
   display:grid;grid-template-columns:1fr 1fr;gap:14px;
@@ -186,7 +203,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
   color:var(--blush);
 }
-
+ 
 /* CTA */
 .lesson-cta{
   text-align:center;margin-bottom:36px;
@@ -200,7 +217,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   box-shadow:0 12px 30px -10px rgba(212,132,122,.5);
 }
 .lesson-cta a:hover{transform:translateY(-2px);box-shadow:0 20px 40px -12px rgba(212,132,122,.6)}
-
+ 
 /* Booking trigger під CTA */
 .booking-trigger{
   margin-top:18px;
@@ -212,7 +229,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   text-align:left;
 }
 .booking-trigger b{color:var(--noir);font-weight:600}
-
+ 
 /* ===== ВІДГУКИ СЛАЙДЕР ===== */
 .feedback-section{
   margin:64px 0 56px;
@@ -227,7 +244,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   font-weight:400;line-height:1.15;margin-bottom:36px;
 }
 .feedback-title em{font-style:italic;color:var(--blush)}
-
+ 
 .feedback-slider{
   position:relative;
   max-width:520px;
@@ -251,7 +268,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   width:100%;height:auto;display:block;
   max-height:340px;object-fit:contain;
 }
-
+ 
 .slider-arrow{
   position:absolute;top:50%;transform:translateY(-50%);
   width:42px;height:42px;
@@ -266,7 +283,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
 .slider-arrow.prev{left:8px}
 .slider-arrow.next{right:8px}
 .slider-arrow:disabled{opacity:.3;cursor:not-allowed}
-
+ 
 .slider-dots{
   display:flex;justify-content:center;gap:8px;
   margin-top:16px;
@@ -278,7 +295,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   transition:background .3s, transform .3s;
 }
 .slider-dot.active{background:var(--blush);transform:scale(1.3)}
-
+ 
 /* ===== TG SECTION ===== */
 .tg-section{
   margin:48px 0 56px;
@@ -305,12 +322,12 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   box-shadow:0 14px 36px -16px rgba(26,26,26,0.18);
 }
 .tg-screenshot img{width:100%;height:auto;display:block}
-
+ 
 @media (max-width:520px){
   .feedback-card img{max-height:280px}
   .slider-arrow{width:36px;height:36px;font-size:20px}
 }
-
+ 
 /* Expired/used state */
 .expired-note{
   background:rgba(107,79,92,0.08);border-left:3px solid var(--deep-mauve);
@@ -319,7 +336,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
   color:var(--deep-mauve);line-height:1.5;
 }
 .expired-note b{font-style:normal;color:var(--noir);font-weight:600}
-
+ 
 .support{
   margin-top:48px;padding-top:32px;border-top:1px solid var(--soft-cream);
   text-align:center;font-size:14px;color:var(--warm-gray);line-height:1.6;
@@ -330,7 +347,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
 <body>
 <div class="wrap">
   <div class="brand">Блог <em>Мі</em></div>
-
+ 
   <!-- ===== EMAIL GATE ===== -->
   <section class="gate" id="gateBlock">
     <h1>Дивись <em>безкоштовний</em> урок</h1>
@@ -345,12 +362,12 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
       <div class="error-msg" id="gateError"></div>
     </div>
   </section>
-
+ 
   <!-- ===== LESSON ===== -->
   <section class="lesson" id="lessonBlock">
     <h1>Твій <em>урок</em></h1>
     <p class="lead">Дивись до кінця — нижче твій персональний промокод і таймер на знижку.</p>
-
+ 
     <!-- ВІДЕО -->
     <div class="video-wrap">
       <iframe
@@ -359,7 +376,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen></iframe>
     </div>
-
+ 
     <!-- ПРОМОКОД -->
     <div class="code-block">
       <div class="code-label">Твій унікальний промокод</div>
@@ -371,7 +388,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
         <span id="copyText">Скопіювати код</span>
       </button>
     </div>
-
+ 
     <!-- ТАЙМЕР -->
     <div class="timer-block" id="timerBlock">
       <div class="timer-label">До закінчення дії промокоду:</div>
@@ -381,13 +398,13 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
         <div class="timer-cell"><span class="v" id="ts">—</span><span class="l">секунд</span></div>
       </div>
     </div>
-
+ 
     <!-- EXPIRED / USED заглушка -->
     <div class="expired-note" id="expiredNote" style="display:none">
       <b id="expiredTitle">Час вийшов</b>
       <span id="expiredText">— твій промокод був дійсний 24 години.</span>
     </div>
-
+ 
     <!-- ПРАЙСИ -->
     <div class="prices-info">
       <div class="price-card">
@@ -403,7 +420,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
         <div class="psave">−2 400 ₴ за кодом</div>
       </div>
     </div>
-
+ 
     <!-- CTA -->
     <div class="lesson-cta">
       <a href="/#pricing">Забронювати місце зі знижкою →</a>
@@ -411,12 +428,12 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
         🔖 <b>Бронь 1 000 ₴</b> — зафіксуй поточну ціну. Решту доплачуєш до старту 18 травня
       </p>
     </div>
-
+ 
     <p style="text-align:center;font-size:13px;color:var(--warm-gray);line-height:1.55;margin-bottom:48px">
       На сторінці курсу обери тариф → у формі оплати клацни <b style="color:var(--noir)">«У мене є промокод»</b><br>
       і встав код. Ціна оновиться автоматично.
     </p>
-
+ 
     <!-- ВІДГУКИ ПРО ВІДЕО (слайдер) -->
     <div class="feedback-section">
       <div class="feedback-slider" id="feedbackSlider">
@@ -436,7 +453,7 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
       </div>
       <div class="slider-dots" id="sliderDots"></div>
     </div>
-
+ 
     <!-- TG ЧАТ -->
     <div class="tg-section">
       <h2 class="tg-title">З <em>чату учасниць</em></h2>
@@ -444,36 +461,36 @@ body{font-family:var(--body);background:var(--blanc);color:var(--noir);line-heig
         <img src="/images/lesson-feedback/tg-chat.jpeg" alt="Повідомлення з TG-чату учасниць" loading="lazy">
       </div>
     </div>
-
+ 
     <div class="support">
       Виникли питання? Пиши <a href="https://t.me/victoria_dovzhuk" target="_blank">@victoria_dovzhuk</a>
     </div>
   </section>
 </div>
-
+ 
 <script>
 const STORAGE_KEY = 'blogmi_lesson_email';
 let savedCode = '';
 let expiresAt = null;
 let timerInterval = null;
-
+ 
 // ===== GATE =====
 async function submitGate(){
   const email = document.getElementById('gateEmail').value.trim();
   const btn = document.getElementById('gateBtn');
   const err = document.getElementById('gateError');
-
+ 
   err.classList.remove('show');
-
+ 
   if (!email || !email.includes('@')) {
     err.textContent = 'Введи коректний email';
     err.classList.add('show');
     return;
   }
-
+ 
   btn.disabled = true;
   btn.textContent = 'Завантажую...';
-
+ 
   try {
     const resp = await fetch('/.netlify/functions/register-lesson', {
       method: 'POST',
@@ -481,7 +498,7 @@ async function submitGate(){
       body: JSON.stringify({ email })
     });
     const data = await resp.json();
-
+ 
     if (!resp.ok || !data.code) {
       err.textContent = data.error || 'Не вдалося згенерувати код';
       err.classList.add('show');
@@ -489,7 +506,7 @@ async function submitGate(){
       btn.textContent = 'Дивитись урок →';
       return;
     }
-
+ 
     // Зберігаємо в localStorage
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({
@@ -500,9 +517,23 @@ async function submitGate(){
         used: !!data.used
       }));
     } catch {}
-
+ 
+    // Meta Pixel: CompleteRegistration — одна подія на email (захист localStorage)
+    try {
+      const regKey = 'blogmi_lesson_registered_v1';
+      const alreadyRegistered = (localStorage.getItem(regKey) || '').split('|');
+      if (typeof fbq === 'function' && !alreadyRegistered.includes(email)) {
+        fbq('track', 'CompleteRegistration', {
+          content_name: 'Промо-урок Блог Мі',
+          status: 'complete'
+        });
+        alreadyRegistered.push(email);
+        localStorage.setItem(regKey, alreadyRegistered.filter(Boolean).join('|'));
+      }
+    } catch {}
+ 
     showLesson(data);
-
+ 
   } catch (e) {
     err.textContent = 'Помилка зʼєднання. Спробуй ще раз.';
     err.classList.add('show');
@@ -510,17 +541,17 @@ async function submitGate(){
     btn.textContent = 'Дивитись урок →';
   }
 }
-
+ 
 // ===== ПОКАЗ УРОКУ =====
 function showLesson(data){
   savedCode = data.code;
   expiresAt = data.expiresAt;
-
+ 
   document.getElementById('codeValue').textContent = data.code;
-
+ 
   document.getElementById('gateBlock').style.display = 'none';
   document.getElementById('lessonBlock').classList.add('show');
-
+ 
   // Якщо код протермінований чи використаний — показуємо примітку, ховаємо таймер
   if (data.expired || data.used) {
     document.getElementById('timerBlock').style.display = 'none';
@@ -536,17 +567,17 @@ function showLesson(data){
     document.getElementById('codeInfo').innerHTML = 'На жаль, термін дії цього промокоду минув або він вже використаний.';
     return;
   }
-
+ 
   startTimer();
 }
-
+ 
 // ===== ТАЙМЕР =====
 function startTimer(){
   if (timerInterval) clearInterval(timerInterval);
   updateTimer();
   timerInterval = setInterval(updateTimer, 1000);
 }
-
+ 
 function updateTimer(){
   const remaining = new Date(expiresAt).getTime() - Date.now();
   if (remaining <= 0) {
@@ -569,7 +600,7 @@ function updateTimer(){
   document.getElementById('tm').textContent = String(m).padStart(2,'0');
   document.getElementById('ts').textContent = String(s).padStart(2,'0');
 }
-
+ 
 // ===== COPY =====
 function copyCode(){
   if (!savedCode) return;
@@ -584,7 +615,7 @@ function copyCode(){
     }, 1800);
   });
 }
-
+ 
 // ===== ВІДНОВЛЕННЯ З LOCALSTORAGE =====
 async function init(){
   let stored = null;
@@ -592,9 +623,9 @@ async function init(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) stored = JSON.parse(raw);
   } catch {}
-
+ 
   if (!stored || !stored.email) return;
-
+ 
   // Перепитуємо бекенд щоб отримати актуальний стан коду (раптом використано)
   try {
     const resp = await fetch('/.netlify/functions/register-lesson', {
@@ -618,16 +649,16 @@ async function init(){
     }
   } catch {}
 }
-
+ 
 // Enter — submit
 document.getElementById('gateEmail').addEventListener('keydown', e => {
   if (e.key === 'Enter') submitGate();
 });
-
+ 
 // ===== ВІДГУКИ СЛАЙДЕР =====
 let feedbackIndex = 0;
 const feedbackTotal = 9;
-
+ 
 function renderDots(){
   const dots = document.getElementById('sliderDots');
   if (!dots) return;
@@ -637,27 +668,27 @@ function renderDots(){
   }
   dots.innerHTML = html;
 }
-
+ 
 function updateFeedback(){
   const track = document.getElementById('feedbackTrack');
   if (!track) return;
   track.style.transform = `translateX(-${feedbackIndex * 100}%)`;
   renderDots();
 }
-
+ 
 function slideFeedback(direction){
   feedbackIndex = (feedbackIndex + direction + feedbackTotal) % feedbackTotal;
   updateFeedback();
 }
-
+ 
 function goToFeedback(index){
   feedbackIndex = index;
   updateFeedback();
 }
-
+ 
 // Запуск рендеру dots при завантаженні
 renderDots();
-
+ 
 // Свайпи на mobile
 (function(){
   const slider = document.getElementById('feedbackSlider');
@@ -670,7 +701,7 @@ renderDots();
     if (Math.abs(dx) > 40) slideFeedback(dx < 0 ? 1 : -1);
   });
 })();
-
+ 
 init();
 </script>
 </body>
