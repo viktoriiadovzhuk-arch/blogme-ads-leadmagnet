@@ -6,6 +6,14 @@
 <script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"></script>
 <link rel="apple-touch-icon" href="/icon-192.png">
 
+<!-- ============ UTM + Meta Pixel ============ -->
+<script src="/js/utm.js"></script>
+<script src="/js/meta-pixel.js"></script>
+<noscript>
+  <img height="1" width="1" style="display:none" alt=""
+       src="https://www.facebook.com/tr?id=1481333723021483&ev=PageView&noscript=1" />
+</noscript>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Блог Мі — програма трансформації від Юлі Норець</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2321,7 +2329,7 @@ footer{
           <li class="off">Місце в кейс-кампанії: «до» і «після»</li>
           <li class="off">Топ-10 кейсів потоку + реклама в моєму блозі</li>
         </ul>
-        <div id="discountStartBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(212,132,122,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blush)">⏰ Підвищення ціни з 13 травня</div>
+        <div id="discountStartBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(212,132,122,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blush)">⏰ Підвищення ціни з 19 травня</div>
         <div class="price">
           <span class="now" id="priceStartNow">4 399&nbsp;₴</span>
           <span class="old">5 999&nbsp;₴</span>
@@ -2350,7 +2358,7 @@ footer{
           <li>Щотижневі мої інсайти з власного блогу</li>
           <li>Запис усіх Zoom-зустрічей назавжди</li>
         </ul>
-        <div id="discountVipBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(201,169,110,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--champagne)">⏰ Підвищення ціни з 13 травня</div>
+        <div id="discountVipBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(201,169,110,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--champagne)">⏰ Підвищення ціни з 19 травня</div>
         <div class="price">
           <span class="now" id="priceVipNow">5 299&nbsp;₴</span>
           <span class="old">6 999&nbsp;₴</span>
@@ -2667,7 +2675,7 @@ function openPayment(plan){
   selectedPlan = plan;
   appliedPromo = null;
 
-  const priceDeadline = new Date('2026-05-13T00:00:00+03:00').getTime();
+  const priceDeadline = new Date('2026-05-18T23:59:00+03:00').getTime();
   const upgraded = Date.now() > priceDeadline;
   basePriceCache.start = upgraded ? 4999 : 4399;
   basePriceCache.vip   = upgraded ? 5999 : 5299;
@@ -2712,7 +2720,7 @@ let bookingPromo = null;
 function openBooking(plan){
   bookingPlan = plan;
   bookingPromo = null;
-  const priceUp = Date.now() > new Date('2026-05-13T00:00:00+03:00').getTime();
+  const priceUp = Date.now() > new Date('2026-05-18T23:59:00+03:00').getTime();
   const fullPrice = plan === 'vip' ? (priceUp ? 5999 : 5299) : (priceUp ? 4999 : 4399);
   const rest = fullPrice - 1000;
   const planLabel = plan === 'vip' ? 'VIP' : 'Start';
@@ -2790,7 +2798,7 @@ async function applyBookingPromo(){
 
 function clearBookingPromo(){
   bookingPromo = null;
-  const priceUp2 = Date.now() > new Date('2026-05-13T00:00:00+03:00').getTime();
+  const priceUp2 = Date.now() > new Date('2026-05-18T23:59:00+03:00').getTime();
   const fullPrice = bookingPlan === 'vip' ? (priceUp2 ? 5999 : 5299) : (priceUp2 ? 4999 : 4399);
   document.getElementById('bookingRestText').textContent = (fullPrice - 1000).toLocaleString('uk-UA') + ' ₴';
   document.getElementById('bookingPromoApplied').classList.remove('show');
@@ -2817,10 +2825,11 @@ async function processBookingPayment(){
   btn.textContent = 'Створюю бронь...';
 
   try {
+    const utm = (typeof window.getBlogmiUtm === 'function') ? window.getBlogmiUtm() : {};
     const resp = await fetch('/.netlify/functions/create-booking', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ plan: bookingPlan, email, promoCode: bookingPromo ? bookingPromo.code : null })
+      body: JSON.stringify({ plan: bookingPlan, email, promoCode: bookingPromo ? bookingPromo.code : null, utm })
     });
     const data = await resp.json();
 
@@ -2881,7 +2890,7 @@ async function processBookingFromPay(){
     const resp = await fetch('/.netlify/functions/create-booking', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ plan: selectedPlan, email, fullPrice: expectedFullPrice })
+      body: JSON.stringify({ plan: selectedPlan, email, fullPrice: expectedFullPrice, utm: (typeof window.getBlogmiUtm === 'function') ? window.getBlogmiUtm() : {} })
     });
     const data = await resp.json();
 
@@ -3010,7 +3019,8 @@ async function processPayment(method){
   const payload = {
     plan: selectedPlan,
     email,
-    promoCode: appliedPromo ? appliedPromo.code : null
+    promoCode: appliedPromo ? appliedPromo.code : null,
+    utm: (typeof window.getBlogmiUtm === 'function') ? window.getBlogmiUtm() : {}
   };
 
   if(method === 'mono'){
@@ -3097,10 +3107,10 @@ document.getElementById('emailOverlay').addEventListener('click', function(e){
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closePayment() });
 
 // ============================================================
-// PRICE INCREASE COUNTDOWN — 13 травня 2026 00:00 Kyiv (UTC+3)
+// PRICE INCREASE COUNTDOWN — 18 травня 2026 23:59 Kyiv (UTC+3)
 // ============================================================
 (function(){
-  const PRICE_UP_DATE = new Date('2026-05-13T00:00:00+03:00').getTime();
+  const PRICE_UP_DATE = new Date('2026-05-18T23:59:00+03:00').getTime();
 
   const PRICES = {
     before: { start: '4&nbsp;399&nbsp;₴', vip: '5&nbsp;299&nbsp;₴' },
