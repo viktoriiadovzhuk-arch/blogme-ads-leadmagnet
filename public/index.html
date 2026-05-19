@@ -1953,7 +1953,7 @@ footer{
 <!-- ========== PRICE INCREASE STRIP ========== -->
 <div class="price-up-strip" id="priceUpStrip">
   <div class="price-up-strip-inner">
-    <div class="pus-label">⏰ До підвищення ціни залишилось</div>
+    <div class="pus-label">🚂 Останній вагон — залишилось</div>
     <div class="pus-sep"></div>
     <div class="pus-timer">
       <div class="pus-cell"><span class="v" id="hDays">—</span><span class="l">днів</span></div>
@@ -2292,7 +2292,7 @@ footer{
 
     <!-- PRICE UP BLOCK IN PRICING -->
     <div class="pricing-pu-block reveal" id="pricingCountdown">
-      <div class="pricing-pu-label">⏰ До підвищення ціни залишилось</div>
+      <div class="pricing-pu-label">🚂 Останній вагон — залишилось</div>
       <div class="pricing-pu-timer">
         <div class="pu-cell"><span class="v" id="pDays">—</span><span class="l">днів</span></div>
         <div class="pu-colon">:</div>
@@ -2329,9 +2329,9 @@ footer{
           <li class="off">Місце в кейс-кампанії: «до» і «після»</li>
           <li class="off">Топ-10 кейсів потоку + реклама в моєму блозі</li>
         </ul>
-        <div id="discountStartBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(212,132,122,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blush)">⏰ Підвищення ціни з 19 травня</div>
+        <div id="discountStartBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(212,132,122,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blush)">🚂 Залетай в останній вагон — до 23 травня</div>
         <div class="price">
-          <span class="now" id="priceStartNow">4 399&nbsp;₴</span>
+          <span class="now" id="priceStartNow">4 599&nbsp;₴</span>
           <span class="old">5 999&nbsp;₴</span>
         </div>
         <div style="text-align:center;margin-bottom:16px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--blush);padding:10px;border:1px dashed var(--blush)">🔥 Старт 18 травня 2026</div>
@@ -2358,9 +2358,9 @@ footer{
           <li>Щотижневі мої інсайти з власного блогу</li>
           <li>Запис усіх Zoom-зустрічей назавжди</li>
         </ul>
-        <div id="discountVipBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(201,169,110,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--champagne)">⏰ Підвищення ціни з 19 травня</div>
+        <div id="discountVipBadge" style="text-align:center;margin-bottom:12px;padding:8px 14px;background:rgba(201,169,110,.1);font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--champagne)">🚂 Залетай в останній вагон — до 23 травня</div>
         <div class="price">
-          <span class="now" id="priceVipNow">5 299&nbsp;₴</span>
+          <span class="now" id="priceVipNow">5 599&nbsp;₴</span>
           <span class="old">6 999&nbsp;₴</span>
         </div>
         <div style="text-align:center;margin-bottom:16px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--champagne);padding:10px;border:1px dashed var(--champagne)">🔥 Старт 18 травня 2026</div>
@@ -2619,8 +2619,8 @@ onScroll();
     const vipBadge   = document.getElementById('discountVipBadge');
     const ebBlock    = document.getElementById('earlyBirdsBlock');
 
-    if (startEl) startEl.innerHTML = '4&nbsp;399&nbsp;₴';
-    if (vipEl)   vipEl.innerHTML   = '5&nbsp;299&nbsp;₴';
+    if (startEl) startEl.innerHTML = '4&nbsp;599&nbsp;₴';
+    if (vipEl)   vipEl.innerHTML   = '5&nbsp;599&nbsp;₴';
 
     if (ebBlock) ebBlock.style.display = 'none';
   }
@@ -2675,10 +2675,10 @@ function openPayment(plan){
   selectedPlan = plan;
   appliedPromo = null;
 
-  const priceDeadline = new Date('2026-05-18T23:59:00+03:00').getTime();
+  const priceDeadline = new Date('2026-05-23T23:59:00+03:00').getTime();
   const upgraded = Date.now() > priceDeadline;
-  basePriceCache.start = upgraded ? 4999 : 4399;
-  basePriceCache.vip   = upgraded ? 5999 : 5299;
+  basePriceCache.start = upgraded ? 4999 : 4599;
+  basePriceCache.vip   = upgraded ? 5999 : 5599;
 
   renderPlanLabel();
 
@@ -2720,8 +2720,8 @@ let bookingPromo = null;
 function openBooking(plan){
   bookingPlan = plan;
   bookingPromo = null;
-  const priceUp = Date.now() > new Date('2026-05-18T23:59:00+03:00').getTime();
-  const fullPrice = plan === 'vip' ? (priceUp ? 5999 : 5299) : (priceUp ? 4999 : 4399);
+  const priceUp = Date.now() > new Date('2026-05-23T23:59:00+03:00').getTime();
+  const fullPrice = plan === 'vip' ? (priceUp ? 5999 : 5599) : (priceUp ? 4999 : 4599);
   const rest = fullPrice - 1000;
   const planLabel = plan === 'vip' ? 'VIP' : 'Start';
   document.getElementById('bookingPlanLabel').textContent = 'Тариф ' + planLabel + ' — 1 000 ₴';
@@ -2798,8 +2798,8 @@ async function applyBookingPromo(){
 
 function clearBookingPromo(){
   bookingPromo = null;
-  const priceUp2 = Date.now() > new Date('2026-05-18T23:59:00+03:00').getTime();
-  const fullPrice = bookingPlan === 'vip' ? (priceUp2 ? 5999 : 5299) : (priceUp2 ? 4999 : 4399);
+  const priceUp2 = Date.now() > new Date('2026-05-23T23:59:00+03:00').getTime();
+  const fullPrice = bookingPlan === 'vip' ? (priceUp2 ? 5999 : 5599) : (priceUp2 ? 4999 : 4599);
   document.getElementById('bookingRestText').textContent = (fullPrice - 1000).toLocaleString('uk-UA') + ' ₴';
   document.getElementById('bookingPromoApplied').classList.remove('show');
   document.getElementById('bookingPromoToggle').style.display = 'inline-block';
@@ -3107,13 +3107,13 @@ document.getElementById('emailOverlay').addEventListener('click', function(e){
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closePayment() });
 
 // ============================================================
-// PRICE INCREASE COUNTDOWN — 18 травня 2026 23:59 Kyiv (UTC+3)
+// PRICE INCREASE COUNTDOWN — 23 травня 2026 23:59 Kyiv (UTC+3)
 // ============================================================
 (function(){
-  const PRICE_UP_DATE = new Date('2026-05-18T23:59:00+03:00').getTime();
+  const PRICE_UP_DATE = new Date('2026-05-23T23:59:00+03:00').getTime();
 
   const PRICES = {
-    before: { start: '4&nbsp;399&nbsp;₴', vip: '5&nbsp;299&nbsp;₴' },
+    before: { start: '4&nbsp;599&nbsp;₴', vip: '5&nbsp;599&nbsp;₴' },
     after:  { start: '4&nbsp;999&nbsp;₴', vip: '5&nbsp;999&nbsp;₴' }
   };
 
