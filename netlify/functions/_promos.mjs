@@ -11,18 +11,23 @@
 
 import { getStore } from "@netlify/blobs";
 
+// Усі статичні промокоди тепер повертають ціну до Early Bird рівня
+// (3799 на Start, 4599 на VIP) — акція «Останній вагон» до 23 травня 2026.
 const PROMOS = {
-  FRIEND50: { type: 'percent', value: 50,   plans: ['start', 'vip'] },
-  VIP1000:  { type: 'fixed',   value: 1000, plans: ['vip'] }
+  FRIEND50: { type: 'fixed_per_plan', prices: { start: 3799, vip: 4599 } },
+  VIP1000:  { type: 'fixed_per_plan', prices: { vip: 4599 } }
 };
 
 // Базові ціни у ГРИВНЯХ
 const BASE_PRICES = {
-  start: { regular: 3799, expired: 4399 },
-  vip:   { regular: 4599, expired: 5299 }
+  start: { regular: 3799, expired: 4599 },
+  vip:   { regular: 4599, expired: 5599 }
 };
 
 const EB_DEADLINE = new Date('2026-04-30T23:59:00+03:00').getTime();
+
+// Last Wagon — поки активна, протерміновані динамічні коди EARLY-* теж приймаються
+const LAST_WAGON_DEADLINE = new Date('2026-05-23T23:59:00+03:00').getTime();
 
 export function getBasePrice(plan) {
   const p = BASE_PRICES[plan];
@@ -45,14 +50,30 @@ export function applyPromo(rawCode, plan) {
   if (!promo) {
     return { ok: false, error: 'NOT_STATIC' }; // Сигнал — спробуй у динаміці
   }
-  if (!promo.plans.includes(plan)) {
+
+  // Перевірка тарифу
+  if (promo.plans && !promo.plans.includes(plan)) {
+    return { ok: false, error: 'Цей промокод не діє для обраного тарифу' };
+  }
+  if (promo.type === 'fixed_per_plan' && !promo.prices?.[plan]) {
     return { ok: false, error: 'Цей промокод не діє для обраного тарифу' };
   }
 
   let price;
-  if (promo.type === 'percent') price = Math.round(basePrice * (1 - promo.value / 100));
-  else if (promo.type === 'fixed') price = promo.value;
-  else return { ok: false, error: 'Внутрішня помилка' };
+  if (promo.type === 'percent') {
+    price = Math.round(basePrice * (1 - promo.value / 100));
+  } else if (promo.type === 'fixed') {
+    price = promo.value;
+  } else if (promo.type === 'fixed_per_plan') {
+    const targetPrice = promo.prices[plan];
+    // Якщо базова ціна вже нижча або дорівнює target — код не дає вигоди
+    if (basePrice <= targetPrice) {
+      return { ok: true, price: basePrice, basePrice, discountLabel: null, code };
+    }
+    price = targetPrice;
+  } else {
+    return { ok: false, error: 'Внутрішня помилка' };
+  }
 
   if (price < 1) return { ok: false, error: 'Некоректна ціна' };
 
@@ -88,7 +109,9 @@ export async function applyPromoAsync(rawCode, plan, email) {
     const promoData = JSON.parse(raw);
 
     // Перевірка терміну дії
-    if (promoData.expiresAt && new Date(promoData.expiresAt) < new Date()) {
+    // Last Wagon: до 23.05.2026 23:59 протерміновані коди EARLY-* приймаємо
+    const isExpired = promoData.expiresAt && new Date(promoData.expiresAt) < new Date();
+    if (isExpired && Date.now() > LAST_WAGON_DEADLINE) {
       return { ok: false, error: 'Термін дії промокоду минув' };
     }
 
